@@ -1,0 +1,11 @@
+#include "R.h"
+/*
+ *
+ * Wrappers to call R random number stuff from Fortran
+ *
+ */
+void F77_SUB(rndstart)(void) { GetRNGstate(); }
+void F77_SUB(rndend)(void) { PutRNGstate(); }
+double F77_SUB(random)() { return unif_rand(); }
+
+

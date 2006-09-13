@@ -1,0 +1,8 @@
+useDynLib(wnominate)
+
+export(wnominate,generateTestData,nomprob,plot.coords,
+plot.angles,plot.cutlines,plot.skree,plot.nomObject,summary.nomObject)
+import(pscl)
+
+S3method(plot,nomObject)
+S3method(summary,nomObject)
