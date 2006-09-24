@@ -1,2 +1,1 @@
-F95=gfortran
-PKG_FCFLAGS=-ffloat-store -fmax-stack-var-size=4 
+PKG_FCFLAGS=$(SAFE_FFLAGS)

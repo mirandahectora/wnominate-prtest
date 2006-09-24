@@ -127,15 +127,13 @@ plot.coords <- function (x, main.title="W-NOMINATE Coordinates",
         stop("Input is not of class 'nomObject'.")
     if(!any(colnames(x$legislators)==plotBy)){
         warning("Variable '", plotBy ,"' does not exist in your W-NOMINATE object.")
-	newnames <- c(colnames(x$legislators),plotBy)
-	x$legislators<- cbind(x$legislators, rep("Leg",dim(x$legislators)[1]))
-	colnames(x$legislators) <- newnames
+	types <- rep("Leg",dim(x$legislators)[1])
+    } else {
+        types <- x$legislators[,plotBy]
     }
     if(length(dims)!=2 & x$dimensions!=1)
         stop("'dims' must be an integer vector of length 2.")
-
-    types <- x$legislators[,plotBy]
-    
+   
     # determine number of parties
     nparties <- length(unique(types))
     

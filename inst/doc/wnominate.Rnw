@@ -171,7 +171,8 @@ the data in R as follows:\\
 
 <<one>>=
 library(wnominate)
-sen90 <- readKH("ftp://voteview.com/sen90kh.ord")
+#sen90 <- readKH("ftp://voteview.com/sen90kh.ord")
+data(sen90)		#Does same thing as above
 sen90
 @
 

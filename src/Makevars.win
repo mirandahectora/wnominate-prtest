@@ -1,3 +1,1 @@
-F95=gfortran
-PKG_FCFLAGS = -ffloat-store -fmax-stack-var-size=4
-OBJS=$(FCSOURCES:.f90=.o) $(CSOURCES:.c=.o)
+PKG_FCFLAGS = $(SAFE_FFLAGS) --float-store -fmax-stack-var-size=8
