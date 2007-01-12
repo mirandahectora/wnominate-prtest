@@ -172,13 +172,13 @@ the data in R as follows:\\
 <<one>>=
 library(wnominate)
 #sen90 <- readKH("ftp://voteview.com/sen90kh.ord")
-data(sen90)		#Does same thing as above
+data(sen90)     #Does same thing as above
 sen90
 @
 
 To make this example more interesting, suppose we were interested
 in applying \emph{wnominate()} only to bills that pertained in some
-way to agriculture.  Keith Poole's VOTEVIEW software allows us to
+way to agriculture.  Keith Poole and Howard Rosenthal's VOTEVIEW software allows us to
 quickly determine which bills in the 90th Senate pertain to
 agriculture.\footnote{VOTEVIEW for Windows can be downloaded at \emph{www.voteview.com}.}
 Using this information, we create a vector of roll calls that we wish
@@ -214,7 +214,7 @@ vector of names, or by any arbitrary column in the
 \emph{legis.data} element of the \verb@rollcall@ object.  Here, we
 use Senators Sparkman and Bartlett to set the polarity for the
 estimation.  The names of the first 12 legislators are shown, and we
-can wee that Sparkman and Bartlett are the second and fifth
+can see that Sparkman and Bartlett are the second and fifth
 legislators respectively.
 
 <<two>>=
@@ -266,7 +266,7 @@ Observe that with agriculture votes, party affiliation does not
 appear to be a strong predictor on the first dimension, although
 the second dimension is largely divided by party line.
 The cutting angle histogram shows that most votes are well classified
-by a single dimension (ie. around 90$^\circ$), although there are a
+by a single dimension (i.e. around 90$^\circ$), although there are a
 number around 30$^\circ$ as well.  The Skree plot shows the first 20
 eigenvalues, and the rapid decline after the second eigenvalue suggests
 that a two-dimensional model describes the voting behavior of the 90th
@@ -285,7 +285,7 @@ and are covered in the example in the final section.  Finally,
 whichever votes the user desires.  The cutline of the 14th 
 agricultural vote (corresponding to the 58th actual vote)
 from the 90th Senate with ideal points is plotted below in Figure
-2, showing that the vote largely broke down on strict partisan
+2, showing that the vote largely broke down along partisan
 lines.
 
 \begin{figure}
@@ -471,15 +471,15 @@ dimension on.
 \begin{thebibliography}{3}
 
 \bibitem{Bootstrap} Lewis, Jeffrey B. and Poole, Keith (2004)
-``Measuring Bias and Uncertainty in Ideal Point Estimates via the Parametric Bootstrap
-\emph{Political Analysis}'' 12(2): 105-127.
+``Measuring Bias and Uncertainty in Ideal Point Estimates via the Parametric Bootstrap.''
+\emph{Political Analysis} 12(2): 105-127.
 
 \bibitem{Congress} Poole, Keith (2005)
-\emph{Spatial Models of Parliamentary Voting.},
+\emph{Spatial Models of Parliamentary Voting.}
 Cambridge: Cambridge University Press.
 
 \bibitem{Congress} Poole, Keith and Howard Rosenthal (1997)
-\emph{Congress: A Political-Economic History of Roll Call Voting.},
+\emph{Congress: A Political-Economic History of Roll Call Voting.}
 New York: Oxford University Press.
 
 \end{thebibliography}

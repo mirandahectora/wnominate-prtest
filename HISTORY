@@ -1,0 +1,7 @@
+
+0.93    * summary.nomObject() classifications fixed
+	* fixed a series of problems that assumed legis.data exists
+	* plot functions now work for data sets with no parties
+	* minor grammatical changes to vignette
+	* MAXLNL warning fixed
+	

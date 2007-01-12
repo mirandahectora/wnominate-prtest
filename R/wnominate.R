@@ -327,7 +327,7 @@ wnominate <- function(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
     colnames(rollcalls)<-c("correctYea", "wrongYea", "wrongNay", "correctNay", "GMP", "PRE",
         paste("spread",1:dims,"D",sep=""), paste("midpoint",1:dims,"D",sep=""))
 
-    legislators <- cbind(as.data.frame(rcObject$legis.data),legislators)
+    if(!is.null(rcObject$legis.data)) legislators <- cbind(as.data.frame(rcObject$legis.data),legislators)
 
     nomObject<-list(legislators=legislators, rollcalls=rollcalls, dimensions=dims, eigenvalues=res$eigenvalues,beta=res$ubeta,weights=res$uweights,fits=res$fits)
     class(nomObject) <- c("nomObject")

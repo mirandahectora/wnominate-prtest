@@ -1,1 +1,1 @@
-PKG_FCFLAGS = $(SAFE_FFLAGS) --float-store -fmax-stack-var-size=8
+PKG_FCFLAGS = $(SAFE_FFLAGS) --float-store

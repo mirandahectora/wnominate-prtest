@@ -2652,8 +2652,7 @@
      &                  BBB,BBBB,SSS,ZMID,XDATA,DYN,LDATA,PSI,          &
      &                  YBIGL,YYBIGL,XFITS,                             &
      &                  XSAVE,ZSAVE,CSAVE,STDDVX,STDDVZ,                &
-     &                  KPJP,LERIC,ISENS,IPRINT)                        &
-     &                  
+     &                  KPJP,LERIC,ISENS,IPRINT)                        
       DIMENSION LL(2,2),MM(2,2),BBB(50),BBBB(25),SSS(100),              &
      &          ZMID(NRCALL,25),XDATA(NP,25),DYN(NRCALL,25),            &
      &          LDATA(NP,NRCALL),PSI(NP,NRCALL,2),                      &
