@@ -9,10 +9,11 @@
 
 \usage{
 generateTestData(legislators=20, rcVotes=100,
-            yea=matrix(runif(rcVotes,max=0.3),nrow=rcVotes),
-            nay=matrix(runif(rcVotes,max=0.3),nrow=rcVotes),
+            yea=matrix(runif(rcVotes,min=-0.2,max=0.7),nrow=rcVotes),
+            nay=matrix(runif(rcVotes,min=-0.7,max=0.2),nrow=rcVotes),
             ideal=matrix(rnorm(legislators),nrow=legislators),
-            Beta=15, dimweight=0.5,normal=1)                         
+            Beta=15, dimweight=0.5,normal=1, seed = NULL, utility='nominate')
+
 }
 
 \arguments{
@@ -25,6 +26,11 @@ generateTestData(legislators=20, rcVotes=100,
   \item{dimweight}{ d x 1 vector of dimension weights. }
   \item{normal}{ integer, '1' generates data using normal probabilities,
                     any other value generates data using logistic probabilities. }
+  \item{seed}{ a single value, interpreted as an integer, used to set the seed.
+		If seed is NULL, current seed is used. }
+  \item{utility}{ String set to either ``nominate'' or ``qn''. `nominate' allows NOMINATE
+		  logit or probit utilities, while ``qn'' allows for quadratic normal utilities
+		  to be used when generating the roll call matrix.}
 }
 
 \value{

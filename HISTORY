@@ -4,4 +4,12 @@
 	* plot functions now work for data sets with no parties
 	* minor grammatical changes to vignette
 	* MAXLNL warning fixed
-	
+
+0.94    * generateTestData() seed setup changed
+	* generateTestData() vote matrix has rownames and column names so Ideal() can process them
+	* Default roll call locations on generateTestData() changed
+	* 'K7MOA10=10' fix in the Fortran code
+	* qnnorm function for Quadratic Utilities added
+	* 'yeah' changed to 'yea in nomprob function
+	* summary.nomObject now includes correct classifications, APRE, and GMP
+	* generateTestData() default bill ranges changed

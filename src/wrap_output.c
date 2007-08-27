@@ -43,7 +43,7 @@ void F77_SUB(echoevent)(int *action){
             Rprintf("\n\n");
             break;
         case 8:
-            Rf_error("Grid search in GRID2() failed in wnom9707().\n");
+            Rf_error("Data set too small to recover estimates: GRID2() failed in wnom9707().\n");
             break;           
     }       
 }

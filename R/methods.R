@@ -255,21 +255,25 @@ summary.nomObject<-function(object,verbose=FALSE,...){
 
     cat("\n\nSUMMARY OF W-NOMINATE OBJECT")
     cat("\n----------------------------\n")
-    cat("\nNumber of Legislators:\t ", dim(na.omit(object$legislators))[1],
+    cat("\nNumber of Legislators:\t  ", dim(na.omit(object$legislators))[1],
     " (", dim(object$legislators)[1]-dim(na.omit(object$legislators))[1],
     " legislators deleted)", sep="")
-    cat("\nNumber of Votes:\t ", dim(na.omit(object$rollcalls))[1],
+    cat("\nNumber of Votes:\t  ", dim(na.omit(object$rollcalls))[1],
     " (", dim(object$rollcalls)[1]-dim(na.omit(object$rollcalls))[1],
     " votes deleted)", sep="")
-    cat("\nNumber of Dimensions:\t", object$dimensions)
+    cat("\nNumber of Dimensions:\t ", object$dimensions)
 
     correctYea<-sum(as.numeric(object$legislators[,"correctYea"]),na.rm=TRUE)
-    allYea<-correctYea+sum(as.numeric(object$legislators[,"wrongYea"]),na.rm=TRUE)
+    allYea<-correctYea+sum(as.numeric(object$legislators[,"wrongNay"]),na.rm=TRUE)
     correctNay<-sum(as.numeric(object$legislators[,"correctNay"]),na.rm=TRUE)
-    allNay<-correctNay+sum(as.numeric(object$legislators[,"wrongNay"]),na.rm=TRUE)
+    allNay<-correctNay+sum(as.numeric(object$legislators[,"wrongYea"]),na.rm=TRUE)
+    cat("\nPredicted Yeas:\t\t  ", correctYea, " of ", allYea, " (", round(100*correctYea/allYea,1), "%) predictions correct", sep="")
+    cat("\nPredicted Nays:\t\t  ", correctNay, " of ", allNay, " (", round(100*correctNay/allNay,1), "%) predictions correct", sep="")
+    cat("\nCorrect Classifiction:\t ", paste(round(object$fits[1:object$dimensions],2),"%",sep=""), sep=" ")
+    cat("\nAPRE:\t\t\t ", round(object$fits[(object$dimensions+1):(2*object$dimensions)],3), sep=" ")
+    cat("\nGMP:\t\t\t ", round(object$fits[(2*object$dimensions+1):(3*object$dimensions)],3), "\n\n\n", sep=" ")
 
-    cat("\nPredicted Yeas:\t\t ", correctYea, " of ", allYea, " (", round(100*correctYea/allYea,1), "%) predictions correct", sep="")
-    cat("\nPredicted Nays:\t\t ", correctNay, " of ", allNay, " (", round(100*correctNay/allNay,1), "%) predictions correct\n\n", sep="")
+
                 
     if(!verbose) {
         cat("The first 10 legislator estimates are:\n")

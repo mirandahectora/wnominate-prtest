@@ -2,29 +2,43 @@
    library.dynam("wnominate",pkg,lib)
 }
 
-nomprob <- function(yea, nay, ideal, Beta, dimweight, normal=1) {
-    res <- .C("nomprob",
-                 as.double(t(yea)),
-                 as.double(t(nay)),
-                 as.double(t(ideal)),
-                 as.double(Beta),
-                 as.double(dimweight),
-                 as.integer(dim(yea)[1]),
-                 as.integer(dim(ideal)[1]),
-                 as.integer(dim(ideal)[2]),
-                 yeahProb = double( dim(ideal)[1]*dim(yea)[1]),
-         as.integer(normal))
-    matrix(res$yeahProb,nrow=dim(ideal)[1],byrow=FALSE)
+# function: qnprob
+# Note: Beta and dimweight are unused and only passed
+#       to match nomprob function
+qnprob <- function(yea,nay,ideal,Beta,dimweight,normal=1) {
+    if (normal==1) {
+        plink = pnorm
+    } 
+    else {
+        plink = plogis
+    }
+    cons <- matrix(1,nrow(ideal),1) %*% t( apply(nay*nay,1,sum) - apply(yea*yea,1,sum) )
+    discrim <- 2*(yea - nay)
+    ystar <-  cons + ideal %*% t(discrim)    
+    plink(ystar)
 }
 
 generateTestData <- function(legislators=20, rcVotes=100,
-            yea=matrix(runif(rcVotes,max=0.3),nrow=rcVotes),
-            nay=matrix(runif(rcVotes,max=0.3),nrow=rcVotes),
+            yea=matrix(runif(rcVotes,min=-0.2,max=0.7),nrow=rcVotes),
+            nay=matrix(runif(rcVotes,min=-0.7,max=0.2),nrow=rcVotes),
             ideal=matrix(rnorm(legislators),nrow=legislators),
-            Beta=15, dimweight=0.5,normal=1) {
-                           
-    set.seed(4)
-    fakeData<-nomprob(yea,nay,ideal,Beta,dimweight,normal)
+            Beta=15, dimweight=0.5,normal=1, seed = NULL, utility='nominate') {
+    if (!is.null(seed)) {
+        set.seed(seed) 
+    }                           
+    if (utility == 'nominate') {
+        probfunc <- nomprob        
+    }
+    else{
+       if (utility == 'QN') {
+        probfunc <- qnprob
+       }    
+       else {
+          stop("'utility' argument must be 'nominate' or 'QN'")
+       }
+    }
+    
+    fakeData<-probfunc(yea,nay,ideal,Beta,dimweight,normal)
     fakeData <- (fakeData > matrix(runif(legislators*rcVotes),legislators,rcVotes))*1  
     fakeData[fakeData==0]<-6
     lopsided<-rep(FALSE,rcVotes)
@@ -45,13 +59,32 @@ generateTestData <- function(legislators=20, rcVotes=100,
    
     legdata<-data.frame(state=state, icpsrState=icpsrState, cd=cd,
                         icpsrLegis=icpsrLegis, party=partyName, party=partyCode)
-    rownames(legdata)<-legis.names
+    rownames(legdata) <- legis.names
+    rownames(fakeData) <- legis.names
+    colnames(fakeData) <- paste("V",1:dim(fakeData)[2],sep="")
     rcObject<-list(votes=fakeData, codes=codes, n=legislators, m=rcVotes,
         lopsided=lopsided, legis.data=legdata, vote.data=NULL, desc=NULL,source=NULL)
     
     class(rcObject) <- c("rollcall")
     rcObject
 }
+
+
+nomprob <- function(yea, nay, ideal, Beta, dimweight, normal=1) {
+    res <- .C("nomprob",
+                 as.double(t(yea)),
+                 as.double(t(nay)),
+                 as.double(t(ideal)),
+                 as.double(Beta),
+                 as.double(dimweight),
+                 as.integer(dim(yea)[1]),
+                 as.integer(dim(ideal)[1]),
+                 as.integer(dim(ideal)[2]),
+                 yeaProb = double( dim(ideal)[1]*dim(yea)[1]),
+         as.integer(normal))
+    matrix(res$yeaProb,nrow=dim(ideal)[1],byrow=FALSE)
+}
+
 
 
 ###################################################################################

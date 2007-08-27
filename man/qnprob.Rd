@@ -1,15 +1,17 @@
-\name{nomprob}
-\alias{nomprob}
-\title{ NOMINATE Probability Matrix Generator}
+\name{qnprob}
+\alias{qnprob}
+\title{ Qudaratic Normal Probability Matrix Generator}
 \description{ 
-  \code{nomprob} takes estimates from the W-NOMINATE model and returns a
-  matrix of yea choice probabilities.  It is used to generate a test
-  \code{rollcall} object using \code{generateTestData}.
+  \code{qnprob} takes estimates from the Quadratic Normal model and returns a
+  matrix of yeah choice probabilities.  It is used to generate a test
+  \code{rollcall} object using \code{generateTestData}. The function is set
+  up to take identical arguments to \code{nomprob}, which explains why many
+  of the arguments do not do anything.
 
 }
 
 \usage{
-nomprob(yea, nay, ideal, Beta, dimweight, normal=1)                       
+qnprob(yea,nay,ideal,Beta,dimweight,normal=1)                      
 }
 
 \arguments{
@@ -17,11 +19,11 @@ nomprob(yea, nay, ideal, Beta, dimweight, normal=1)
 For items below, m is the number of roll calls, n the number of legislators,
 and d the number of dimensions.
 
-\item{yea}{ m x d matrix of yea locations. }
+\item{yea}{ m x d matrix of yeah locations. }
 \item{nay}{ m x d matrix of no locations. }
 \item{ideal}{ n x d matrix of legislator ideal points. }
-\item{Beta}{ scalar giving beta parameter from W-NOMINATE. Usually set to 15.}
-\item{dimweight}{ d x 1 vector of dimension weights. Usually set to 0.5.}
+\item{Beta}{ Ignored.}
+\item{dimweight}{ Ignored.}
 \item{normal}{ integer, '1' generates data using normal probabilities,
                     any other value generates data using logistic probabilities. }
 
@@ -53,7 +55,7 @@ Royce Carroll \email{rcarroll@ucsd.edu}
     yp <- matrix(rep(0,10),nrow=10)
     np <- matrix(rep(0.1,10),nrow=10)
     ideal <- matrix(rep(0,10),nrow=10)
-    nomprob(yp,np,ideal,15,0.5)    #a matrix of yea probabilities
+    qnprob(yp,np,ideal,15,0.5)    #a matrix of yea probabilities
 
 }
 \keyword{ multivariate }

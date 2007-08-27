@@ -17,7 +17,8 @@ summary.nomObject(object,verbose=FALSE,...)
 }
 
 \value{
-    A summary of a \code{wnominate} object.
+    A summary of a \code{wnominate} object. Correct classification, APRE, and GMP
+    are reported separately for each dimension.
 }
 
 \author{ 
