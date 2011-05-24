@@ -777,26 +777,26 @@
 !     C               POOLE(I,J),POOLE(I,J+NRCALL),POOLE(I,J+2*NRCALL)
   659      CONTINUE
 !
-           DO 1427 I=1,NP
-           DO 1428 J=1,NRCALL
-           ICH=LDATA(I,J)
-           IF(ICH.LE.0)GO TO 1428
+!           DO 1427 I=1,NP
+!           DO 1428 J=1,NRCALL
+!           ICH=LDATA(I,J)
+!           IF(ICH.LE.0)GO TO 1428
 !
 !           COINFLIP=RNUNF()
-           COINFLIP=RANDOM()
+!           COINFLIP=RANDOM()
 !
-           IF(COINFLIP.LE.PROBMAT(I,J))THEN
-              LDATA(I,J)=1
-              LDATA2(I,J)=1
-           ENDIF
-           IF(COINFLIP.GT.PROBMAT(I,J))THEN
-              LDATA(I,J)=2
-              LDATA2(I,J)=6
-           ENDIF
- 1428      CONTINUE
+!           IF(COINFLIP.LE.PROBMAT(I,J))THEN
+!              LDATA(I,J)=1
+!              LDATA2(I,J)=1
+!           ENDIF
+!           IF(COINFLIP.GT.PROBMAT(I,J))THEN
+!              LDATA(I,J)=2
+!              LDATA2(I,J)=6
+!           ENDIF
+! 1428      CONTINUE
 !           WRITE(66,200)I,
 !     C                         (LDATA2(I,JJ),JJ=1,NRCALL)
- 1427      CONTINUE           
+! 1427      CONTINUE           
       ENDIF
 !
 !  DRAW NEW ROLL CALL MATRIX
@@ -1359,6 +1359,11 @@
 !  100 FORMAT(I4,3F12.5,I8)
       KTP=1
       NPQ=NP-1
+      IF(NS.EQ.1)THEN
+         DO 3 IW=1,NP
+         ZZZ(IW)=XX(IW,1)
+  3      CONTINUE
+      ENDIF
       CALL STATKP(NP,NS,DSTAR,ZZZ,XX,SSE1,RRSQ,KK)
       DAT(1)=SSE1
       II=0

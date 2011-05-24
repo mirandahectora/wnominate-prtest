@@ -99,13 +99,13 @@ wnominate(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
 }
 
 \author{ 
-Keith Poole \email{kpoole@ucsd.edu}
+Keith Poole \email{ktpoole@uga.edu}
 
 Jeffrey Lewis \email{jblewis@ucla.edu}
 
-James Lo \email{jameslo@ucla.edu}
+James Lo \email{lo@uni-mannheim.de}
 
-Royce Carroll \email{rcarroll@ucsd.edu}
+Royce Carroll \email{rcarroll@rice.edu}
 }
 
 \references{
@@ -115,6 +115,8 @@ Keith Poole and Howard Rosenthal. 1997. 'Congress: A Political-Economic History 
 Roll Call Voting.' New York: Oxford University Press.
 
 Keith Poole. \url{ http://voteview.ucsd.edu/ }
+
+Keith Poole, Jeffrey Lewis, James Lo, and Royce Carroll. 2011. `Scaling Roll Call Votes with WNOMINATE in R.' Journal of Statistical Software, 42(14), 1-21. \url{ http://www.jstatsoft.org/v42/i14/}
 
 }
 

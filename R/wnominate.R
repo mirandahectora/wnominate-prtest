@@ -362,7 +362,12 @@ wnominate <- function(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
 
     if(!is.null(rcObject$legis.data)) legislators <- cbind(as.data.frame(rcObject$legis.data),legislators)
 
-    nomObject<-list(legislators=legislators, rollcalls=rollcalls, dimensions=dims, eigenvalues=res$eigenvalues,beta=res$ubeta,weights=res$uweights,fits=res$fits)
+    fits <- as.numeric(res$fits)
+    names(fits) <- c(paste("correctclass",1:dims,"D",sep=""),
+paste("apre",1:dims,"D",sep=""),
+paste("gmp",1:dims,"D",sep=""))
+
+    nomObject<-list(legislators=as.data.frame(legislators), rollcalls=as.data.frame(rollcalls), dimensions=dims, eigenvalues=res$eigenvalues,beta=res$ubeta,weights=res$uweights,fits=fits)
     class(nomObject) <- c("nomObject")
     cat("W-NOMINATE estimation completed successfully.")    
     cat("\nW-NOMINATE took", (proc.time()-start)[3],"seconds to execute.\n\n")     

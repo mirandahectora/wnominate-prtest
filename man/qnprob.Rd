@@ -37,13 +37,13 @@ legislators on each of m votes
 }
 
 \author{ 
-Keith Poole \email{kpoole@ucsd.edu}
+Keith Poole \email{ktpoole@uga.edu}
 
 Jeffrey Lewis \email{jblewis@ucla.edu}
 
-James Lo \email{jameslo@ucla.edu}
+James Lo \email{lo@uni-mannheim.de}
 
-Royce Carroll \email{rcarroll@ucsd.edu}
+Royce Carroll \email{rcarroll@rice.edu}
 }
 
 \seealso{

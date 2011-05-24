@@ -13,3 +13,10 @@
 	* 'yeah' changed to 'yea in nomprob function
 	* summary.nomObject now includes correct classifications, APRE, and GMP
 	* generateTestData() default bill ranges changed
+
+0.95    * Fix to parametric bootstrap
+	* Email addresses updated for everyone
+	* CITATION file added for JSS publication
+      * JSS cited in every .Rd file, and in vignette
+	* Legislator and Rollcall subjects cast as data frames
+	* Fit statistics more informatively labelled

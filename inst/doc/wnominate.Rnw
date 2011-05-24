@@ -28,7 +28,7 @@ current software no longer relies exclusively on the old
 allows users to generate standard errors for their ideal point
 estimates using a parametric bootstrap.  Finally, the
 \verb@wnominate@ package includes a full suite of graphics
-functions to analyze the results.
+functions to analyze the results. The vignette presented here is a (slightly) modified version of Poole et al (2011).
 
 W-NOMINATE scores are based on the spatial model of voting.  Let
 \textit{s} denote the number of policy dimensions, which are
@@ -468,19 +468,20 @@ the voting patterns accurately, as seen by the flatness of the curve from the se
 dimension on.
 
 \newpage
-\begin{thebibliography}{3}
+\begin{thebibliography}{4}
 
-\bibitem{Bootstrap} Lewis, Jeffrey B. and Poole, Keith (2004)
+\bibitem{Bootstrap} Poole, Keith and Jeffrey B. Lewis,(2004)
 ``Measuring Bias and Uncertainty in Ideal Point Estimates via the Parametric Bootstrap.''
 \emph{Political Analysis} 12(2): 105-127.
 
-\bibitem{Congress} Poole, Keith (2005)
+\bibitem{spatial} Poole, Keith (2005)
 \emph{Spatial Models of Parliamentary Voting.}
 Cambridge: Cambridge University Press.
 
+\bibitem{JSS} Poole, Keith, Jeffrey Lewis, James Lo, and Royce Carroll (2011)``Scaling Roll Call Votes with WNOMINATE in R.'' \emph{Journal of Statistical Software} 42(14): 1-2.1
+
 \bibitem{Congress} Poole, Keith and Howard Rosenthal (1997)
-\emph{Congress: A Political-Economic History of Roll Call Voting.}
-New York: Oxford University Press.
+\emph{Congress: A Political-Economic History of Roll Call Voting.} New York: Oxford University Press.
 
 \end{thebibliography}
 
