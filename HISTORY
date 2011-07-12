@@ -6,7 +6,7 @@
 	* MAXLNL warning fixed
 
 0.94    * generateTestData() seed setup changed
-	* generateTestData() vote matrix has rownames and column names so Ideal() can process them
+	* generateTestData() vote matrix has rownames and column names so ideal() can process them
 	* Default roll call locations on generateTestData() changed
 	* 'K7MOA10=10' fix in the Fortran code
 	* qnnorm function for Quadratic Utilities added
@@ -17,6 +17,12 @@
 0.95    * Fix to parametric bootstrap
 	* Email addresses updated for everyone
 	* CITATION file added for JSS publication
-      * JSS cited in every .Rd file, and in vignette
+        * JSS cited in every .Rd file, and in vignette
 	* Legislator and Rollcall subjects cast as data frames
 	* Fit statistics more informatively labelled
+
+0.96	*"Skree" renamed as "Scree" everywhere
+	*plot.skree() renamed as plot.scree()
+	*All links to plot.skree() changed for this purpose, including all documentation and functions
+	*Legislator PRE replaced with legislator CC, change reflected in documentation
+	*JSS publication is now the vignette

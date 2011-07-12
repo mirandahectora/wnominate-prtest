@@ -1,13 +1,13 @@
-\name{plot.skree}
-\alias{plot.skree}
-\title{ W-NOMINATE Skree Plot }
+\name{plot.scree}
+\alias{plot.scree}
+\title{ W-NOMINATE Scree Plot }
 \description{ 
-  \code{plot.skree} is the function that takes a W-NOMINATE object and plots a Skree plot.
-  Skree plots show the dimensionality of the voting by showing the sizes of the eigenvalues.
+  \code{plot.scree} is the function that takes a W-NOMINATE object and plots a Scree plot.
+  Scree plots show the dimensionality of the voting by showing the sizes of the eigenvalues.
 }
 
 \usage{
-plot.skree(x, main.title="Skree Plot", x.title="Dimension",
+plot.scree(x, main.title="Scree Plot", x.title="Dimension",
         y.title="Eigenvalue",...)
 }
 
@@ -20,7 +20,7 @@ plot.skree(x, main.title="Skree Plot", x.title="Dimension",
 }
 
 \value{
-    A Skree plot, showing the first 20 eigenvalues.
+    A Scree plot, showing the first 20 eigenvalues.
 }
 
 \author{ 
@@ -45,7 +45,7 @@ Royce Carroll \email{rcarroll@rice.edu}
     data(sen90wnom)
 
     summary(sen90wnom)
-    plot.skree(sen90wnom)
+    plot.scree(sen90wnom)
     plot(sen90wnom)
 }
 \keyword{ multivariate }

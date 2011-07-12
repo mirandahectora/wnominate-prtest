@@ -1,0 +1,893 @@
+\documentclass[article]{jss}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% almost as usual
+\author{Keith Poole \\ University \\ of \\ California, \\ San Diego 
+  \And
+  Jeffrey Lewis \\ University \\ of \\ California, \\ Los Angeles 
+  \And
+  James Lo \\ University \\ of \\ California, \\ Los Angeles 
+  \And
+  Royce Carroll \\ Rice University
+}
+        
+\title{Scaling Roll Call Votes with \pkg{wnominate} in R}
+
+%% for pretty printing and a nice hypersummary also set:
+%%\Plainauthor{Keith Poole, Jeffrey Lewis, James Lo, Royce Carroll}
+
+%% an abstract and keywords 
+\Abstract{This paper presents a software 
+package designed to estimate Poole and Rosenthal W-NOMINATE scores 
+in R.  The package uses a logistic regression model to analyze 
+political choice data, usually (though not exclusively) from a 
+legislative setting.  In contrast to other scaling methods, 
+W-NOMINATE explicitly assumes probabilistic voting based on a 
+spatial utility function, where the parameters of the utility 
+function and the spatial coordinates of the legislators and the 
+votes can all be estimated on the basis of observed voting behavior.  
+Building on the W-NOMINATE software written by Poole in FORTRAN, the 
+new package facilitates easier data input and manipulation, 
+generates bootstrapped standard errors, and includes a new suite of 
+graphics functions to display the results.  We demonstrate the 
+functionality of this package by conducting a natural experiment 
+using roll calls --- an experiment which is greatly simplified by 
+the data manipulation capabilities of the W-NOMINATE package in R.} 
+
+\Keywords{multivariate, R, roll call, scaling, \pkg{wnominate}} 
+\Plainkeywords{multivariate, R, roll call, scaling, wnominate}
+
+%% without formatting %% at least one keyword must be supplied
+
+%% publication information
+%% NOTE: This needs to filled out ONLY IF THE PAPER WAS ACCEPTED.
+%% If it was not (yet) accepted, leave them commented.
+%\Volume{22}
+%\Issue{1}
+%\Month{September}
+%\Year{2007}
+\Submitdate{2007-02-01}
+\Acceptdate{2007-08-07}
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+
+  Keith T. Poole\\
+  Department of Political Science\\
+  Social Sciences Building, Room 301\\
+  9500 Gilman Drive, MC 0521\\
+  University of California, San Diego\\
+  La Jolla, CA 92093-0521\\
+  E-mail: \email{kpoole@ucsd.edu}\\
+  URL: \url{http://www.voteview.com/}\\\\
+
+  Jeffrey B. Lewis\\
+  University of California - Los Angeles\\ 
+  Political Science Department, Bunche Hall\\
+  Los Angeles, CA 90095\\
+  E-mail: \email{jblewis@ucla.edu}\\
+  URL: \url{http://www.polisci.ucla.edu/faculty/lewis/}\\\\
+
+  James Lo\\
+  University of California - Los Angeles\\ 
+  Political Science Department, Bunche Hall\\
+  Los Angeles, CA 90095\\
+  E-mail: \email{jameslo@ucla.edu}\\\\
+
+  Royce Carroll\\
+  Department of Political Science, MS 24\\
+  Rice University\\
+  PO Box 1892\\
+  Houston, Texas 77251-1892\\
+  E-mail: \email{rcarroll@rice.edu}\\
+
+}
+
+%% for those who use Sweave please include the following line (with % symbols):
+%% need no \usepackage{Sweave.sty}
+
+%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{amsmath}
+\usepackage{amscd}
+
+\graphicspath{{./Figures/}}
+
+\begin{document}
+
+\section{Introduction}
+
+Legislative roll call analysis has enjoyed a long history in 
+political science, dating back to the work of A. Lawrence Lowell in 
+1902 \citep{Lowell}.  In analyzing a roll call matrix containing 
+hundreds of legislators and hundreds or even thousands of votes, 
+procedures that are able to reduce the dimensionality of the data 
+matrix can be helpful in uncovering patterns in voting.  As MacRae 
+pointed out as early as 1958 \citep{MacRae}, ``one way to try to account for 
+political choices is to imagine that each chooser occupies a fixed 
+position in a space of one or more dimensions, and to suppose that 
+every choice presented to him is a choice between two or more points 
+in that space.''
+
+The essence of MacRae's statement suggests that one can think of a 
+roll call matrix as being the result of two different sets of 
+variables --- an ideal point for each  legislator that represents 
+their vote preference or ideology, and separate yea and nay 
+locations for each roll call.  Legislators are assumed to have an 
+ideal point on each dimension, along with single-peaked and 
+symmetric preferences.  The utility of a yea or nay vote can then be 
+thought of as a function of the distance between the legislator's 
+ideal point and the yea/nay locations, along with an idiosyncratic 
+utility shock or ``error term.''  Legislators are then assumed to 
+maximize their utility by voting for the bill outcome that minimizes 
+the distance between the yea/nay location and their ideal point, 
+subject to a stochastic random utility component \citep{McFadden}.  
+This multidimensional spatial model was formally proposed by Hinich 
+and Ordeshook \citep{Cahoon, Ordeshook, Hinich1} and developed in 
+depth by Hinich and his colleagues \citep{Enelow, Hinich2, Hinich3}.
+
+The Hinich-Ordeshook spatial model of voting embodies the key 
+insight of Philip Converse (\citeyear{Converse}).  According to 
+Converse, a belief system (i.e. an ideology) can be thought of as a 
+set of beliefs that are often observed to be bundled together.  
+Taking the current US Congress as an example, a legislator who 
+favors raising the minimum wage and a federally funded universal 
+health care system is also likely to support affirmative action, 
+higher taxes, and lower defense spending.  Empirically, a belief 
+system containing high levels of `constraint' means that given one 
+or two issue positions from a legislator, we are able to predict 
+many other seemingly unrelated issue positions.  When applied to 
+roll call data, the existence of constraint has a straightforward 
+geometric interpretation, suggesting that the issues lie on a 
+low-dimensional hyperplane.  Stated another way, the vast majority 
+of votes in a roll call matrix are classified correctly using 
+cutlines derived from only one or two issue dimensions.
+
+Although a number of different procedures \citep{OC, Heckman, CJR}
+have been developed to fit the Hinich-Ordeshook spatial model to
+Congressional roll call votes, the W-NOMINATE model remains the most
+popular. \footnote{See \citet{PR} for a discussion comparing
+  W-NOMINATE scores to the Guttman scaling procedure that historically
+  preceeded it.}  Fitting such a model allows us to recover estimates
+of the legislator ideal points and yea/nay locations of a roll call
+matrix, and these results can themselves be subjected to further
+analysis.  W-NOMINATE has been widely applied to study polarization in
+American politics \citep{app1} and party discipline \citep{app2},
+among other topics.  Outside of the setting of the U.S.~Congress, the
+model has been used to study voting in the United Nations
+\citep{Voeten}, and the California state legislature \citep{Masket}.
+
+This package estimates Poole and Rosenthal W-NOMINATE scores from roll
+call votes supplied though a \code{rollcall} object from package
+\pkg{pscl}.\footnote{Production of this package, \pkg{wnominate}, is
+  supported by NSF Grant SES-0611974.} The \proglang{R} \citep{R}
+version of W-NOMINATE computes ideal points using the same FORTRAN
+code base as the previous \emph{wnom9707} software.  It improves upon
+the earlier software in three ways.  First, it is now considerably
+easier to input new data for estimation, as the current software no
+longer relies exclusively on the old \code{.ORD} file format for data
+input.  Secondly, the software now allows users to generate standard
+errors for their ideal point estimates using a parametric bootstrap.
+Finally, \pkg{wnominate} includes a full suite of graphics functions
+to facilitate easier interpretation of the results.
+
+W-NOMINATE scores are based on the spatial model of voting.  Let $s$
+denote the number of policy dimensions, which are indexed by $k=1,
+\ldots, s$; let $p$ denote the number of legislators ($i=1,\ldots,p$;
+and $q$ denote the number of roll call votes ($j=1,\ldots,q$. Let
+$x_{i}$ be the ideal point of legislator $i$, a vector of length $s$.
+Each roll call vote is represented by vectors of length $s$, $z_{jy}$
+and $z_{jn}$, where $y$ and $n$ stand for the policy outcomes
+associated with Yea and Nay, respectively.
+
+Legislator $i$'s utility for outcome $y$ on roll call $j$ is
+\begin{eqnarray}
+  \label{eq:1}
+  U_{ijy} & = & u_{ijy} + \epsilon_{ijy} \\ 
+  u_{ijy} & = & \beta \exp
+  \left[
+    -\frac{\sum_{k=1}^{s}w^{2}_{k}d^{2}_{ijyk}}{2}
+  \right]
+\end{eqnarray}
+where $u_{ijy}$ represents the deterministic part of the legislator's 
+utility while $\epsilon_{ijy}$ represents the stochastic component. 
+The $d^{2}_{ijyk}$ term in the exponent is the Euclidean distance 
+between a legislator's ideal point $x_{i}$ and the Yea bill location 
+$z_{jyk}$; namely,
+\begin{equation}
+  d^{2}_{ijy} = \sum_{k=1}^{s}(x_{ik}-z_{jyk})^2  
+\end{equation}
+
+Weight $w$ and $\beta$ are estimated but set with initial values
+of 0.5 and 15 respectively.  $\beta$ can be thought of as a
+signal-to-noise ratio, where as $\beta$ increases in value, the
+deterministic portion of the utility function overwhelms the
+stochastic portion.  In multiple dimensions, $\beta$ is only
+estimated for the first dimension and is thereafter kept constant.
+For dimensions 2 to s, the corresponding $w_{k}$ is estimated,
+with the starting value of $w_{k}$ set at 0.5 each time.
+
+The stochastic element in the utility, $\epsilon$, is assumed to 
+follow an extreme value distribution.  This allows us to express the 
+probability that legislator \emph{i} votes for outcome \emph{y} on 
+roll call \emph{j} as:
+
+\begin{equation}
+  \text{Pr(Yea)} = P_{ijy} = \frac{\exp(u_{ijy})}{\exp(u_{ijy})+\exp(u_{ijn})}   
+\end{equation}
+
+Extending this even further, by replacing \emph{y} with the index 1 
+and \emph{n} with the index 2, and then allowing \emph{l} to be the 
+index for \emph{y} and \emph{n}, we can express the 
+likelihood function to be maximized as:
+\begin{equation}
+  \label{eq:2}
+  L = \displaystyle\prod_{i=1}^{p} \prod_{j=1}^{q} \prod_{l=1}^{2}
+  P_{ijl}^{C_{ijl}}
+\end{equation}
+where $C_{ijl}=1$ if choice $l$ is the actual choice of 
+legislator $i$ on roll call $j$ and is zero otherwise. 
+
+In estimating the outcome points for each bill, W-NOMINATE estimates
+and reports the outcome points in terms of their midpoint and the
+distance between them; namely,
+\begin{equation}
+  \label{eq:3}
+  z_{jy}=z_{mj}-d_{j} \quad \text{and} \quad z_{jn}=z_{mj}+d_{j} 
+\end{equation}
+where $z_{mj}$ is the midpoint and $d_{j}=(z_{jy}-z_{jn})/2$.
+
+To conduct this estimation, the W-NOMINATE algorithm has three basic 
+steps:
+
+\begin{enumerate}
+\item Estimate $z_{mjk}$ and $d_{jk}$, conditional on $x_{ik}$,
+  $\beta$, and $w_{k}$.
+\item Estimate $x_{ik}$, conditional on $z_{mjk}$, $d_{jk}$, $\beta$,
+  and $w_{k}$.
+\item Estimate $\beta$ (if k=1) and $w_{k}$ (if k=2,...,s),
+  conditional on $z_{mjk}$, $d_{jk}$, and $x_{ik}$.
+\end{enumerate}
+
+These steps form a global iteration, which explains the acronym 
+W-NOMINATE---\textbf{W}eighted \textbf{NOMINA}l \textbf{T}hree-Step 
+\textbf{E}stimation.  The procedure repeats until the $z$, $x$, and 
+$d$ parameters all correlate at 0.99 or better with the set 
+estimated on the previous global iteration.
+
+\section{Usage Overview}
+
+In conducting the estimate, W-NOMINATE requires several inputs in
+addition to the roll call matrix, most of which are set by default.
+First, one must fix a cutoff level (the \code{lop} argument) in terms
+of the proportion of voters voting with the minority side that
+determines whether a given roll call in included.  Levels that are set
+too high (i.e., 0.1) worsen legislator estimates by failing to allow
+for enough differentiation between extremists and moderates.  In
+contrast, levels that are set too low (i.e., 0.01) lead to the
+inclusion of near-unanimous votes that contain little information
+about member locations.  The default is set at 0.025. Secondly,
+W-NOMINATE requires the specification of an initial value of $\beta$,
+which by default is set at 15.  This functions as a signal-to-noise
+ratio\footnote{The quantity $\beta$ also controls the maximum choice
+  probability, which is $\frac{e^{\beta}}{e^{\beta}+1}$.}, and in
+general should not be modified.
+
+As with any common scaling method, the polarities of the estimated 
+coordinates in W-NOMINATE are arbitrary.  W-NOMINATE requires the 
+specification of a legislator to be positive in each dimension.  The 
+argument (the \code{polarity} argument) is used to orient the 
+estimated results in the desired direction.  In general, users will 
+likely wish to orient conservaties on the right and liberals on the 
+left, so `positive' in this case generally means conservative.  The 
+polarity can be specified in a number of ways, though the 
+recommended procedure here is to specify polarities using the row 
+numbers of the legislators designated to be positive.  No default 
+arguments are set for the polarity argument.
+
+Finally, W-NOMINATE allows the user to specify the number of trials
+that they wish to use to bootstrap standard errors.  By default,
+W-NOMINATE will not conduct a bootstrap, and hence will not calculate
+standard errors.  In general, we recommend that at least 50 bootstrap
+trials be used to obtain reasonable standard errors. Users are cautioned
+that use of the bootstrap will lengthen the amount of time needed to
+conduct the estimation by a considerable amount. On a 1.67 HGz computer
+running Windows Vista with 2 GB of memory, 50 bootstrap trials on the
+90th Senate in two dimensions (a roll call matrix with 102 legislators
+and 519 roll calls) took 61 minutes to complete. The estimation time
+required for all estimates is roughly proportional to $O(legislators
+* rollcalls)$.
+
+To input data into W-NOMINATE, we make use of Simon Jackman's 
+\pkg{pscl} package \citep{Jackman}, which contains support for 
+objects of class \code{rollcall}.  The \code{rollcall} object simply 
+acts as a container holding all the key components of a roll call 
+data set in a standardized manner.  Readers are advised to look at 
+the documentation of \pkg{pscl} for further information.
+
+\code{rollcall} objects can be generated in two different ways for use
+with W-NOMINATE.  First, users can simply take an \emph{ORD} file and
+format it as a \code{rollcall} object using the function
+\code{readKH}. Secondly, users can generate a vote matrix of their own
+in a spreadsheet and format it into a \verb@rollcall@ object using the
+function \code{rollcall}. \footnote{A third option is to manually
+  generate a \code{rollcall} object with known latent values using the
+  \code{generateTestData} function for estimation.  However, this is
+  intended for Monte Carlo testing purposes only and is not discussed
+  further in this paper.}  Each of these cases are supported by a
+similar sequence of function calls, as shown in the diagram below:
+\begin{center}
+  \begin{tabular}{ccccc}
+    \texttt{ORD} file & 
+    $\stackrel{\text{\code{readKH()}}}{\longrightarrow}$ &
+    \code{rollcall} object & 
+    $\stackrel{\text{\code{wnominate()}}}{\longrightarrow}$ &
+    \code{wnominate} object \\[12pt]
+    vote matrix & 
+    $\stackrel{\text{\code{rollcall()}}}{\longrightarrow}$ &
+    \code{rollcall} object & 
+    $\stackrel{\text{\code{wnominate()}}}{\longrightarrow}$ &
+    \code{wnominate} object \\
+  \end{tabular}
+\end{center}
+
+
+% \begin{flushleft}
+% $
+% \begin{CD}
+% \texttt{\emph{ORD} file}
+%    @>\texttt{readKH()}>>
+%    \texttt{\emph{rollcall} object}
+%    @>\texttt{wnominate()}>>
+%    \texttt{\emph{wnominate} object}
+% \end{CD}
+% $
+% $
+% \begin{CD}
+%    \texttt{Vote matrix}
+%    @>\texttt{rollcall()}>>
+%    \texttt{\emph{rollcall} object}
+%    @>\texttt{wnominate()}>>
+%    \texttt{wnominate} object}
+% \end{CD}
+% $
+% \end{flushleft}
+
+The \code{rollcall} object is input to \code{wnominate} and the 
+results of the estimation are output to a \code{wnominate} 
+object.  This object in turn can then be analyzed using the 
+\code{plot} and \code{summary} methods built into the package, 
+including:
+
+\begin{itemize}
+\item \code{plot.coords}: Plots ideal points in one or two dimensions.
+\item \code{plot.angles}: Plots a histogram of cut lines.
+\item \code{plot.cutlines}: Plots a specified percentage of cut lines (a Coombs mesh).
+\item \code{plot.skree}: Plots a skree plot with the first 20 eigenvalues.
+\item \code{plot.nomObject}: S3 method for a \verb@wnominate@ object
+that combines the four plots described above.
+\item \code{summary.nomObject}: S3 method for a \verb@wnominate@ object
+that summarizes the estimates.
+\end{itemize}
+
+
+Examples of the two cases described here, as well as an example of
+how the package can be used to conduct natural experiments using
+roll calls, are presented in the following sections. Before proceeding
+to the examples however, it should be noted that three types of roll
+call matrices are not estimated well (or at all) by \code{wnominate}.
+First, roll call matrices with perfect voting are poorly estimated
+in \code{wnominate} because metric information cannot be recovered in
+the absence of voting error. Secondly, roll call matrices that are too
+small (and hence have too little information to recover) are also poorly
+estimated. Finally, in roll call matrices where the legislators can be
+partitioned off into distinct groups with no linking legislators serving
+across partitions (i.e. if we combined roll call matrices from only the
+1st and 109th Senates) \code{wnominate} is unable to estimate the problem
+because no information exists in the data to allow members across distinct
+groups to be placed in the same ideological space.
+
+\section{W-NOMINATE with ORD files}
+
+This is the use case that the majority of \pkg{wnominate} users
+are likely to fall into.  Roll call votes in a fixed width
+\emph{ORD} format for all U.S. Congresses are stored online for
+download at:
+
+\begin{itemize} 
+\item \url{http://www.voteview.com/} 
+\item \url{http://adric.sscnet.ucla.edu/rollcall/} (latest 
+Congress only, updates votes in real time) 
+\end{itemize}
+
+\pkg{wnominate} takes \code{rollcall} objects from Simon Jackman's 
+\pkg{pscl} package as input. The \pkg{pscl} package includes a 
+function, \code{readKH}, that takes an \emph{ORD} file and 
+automatically transforms it into a \verb@rollcall@ object as 
+desired. Using the 90th Senate as an example, we can download the 
+file \code{sen90kh.ord} and read the data in \proglang{R} as follows:\\
+
+<<one>>=
+library(wnominate)
+sen90 <- readKH("ftp://voteview.com/sen90kh.ord")
+sen90
+@
+
+Although we will not do so in this example, we could easily subset the
+roll calls to apply W-NOMINATE only to a subset of votes -- a function
+not built into the earlier version of W-NOMINATE.  Suppose for example
+that we were interested in applying \pkg{wnominate} only to bills that
+pertained in some way to agriculture.  Keith Poole and Howard
+Rosenthal's VOTEVIEW software allows us to quickly determine which
+bills in the 90th Senate pertain to agriculture.\footnote{VOTEVIEW for
+  Windows can be downloaded at \url{www.voteview.com}. We expect that
+  at some point in the future we will develop software that fully
+  integrates W-NOMINATE in R with VOTEVIEW.} Using this information,
+we could create a vector of roll calls that we wish to select, then
+select for them in the \verb@rollcall@ object.  In doing so, we also
+need to take care to update the variable in the \verb@rollcall@ object
+that counts the total number of bills.  The code to do this is not
+executed, but is nevertheless included here as an example:
+\begin{verbatim}
+> selector <- c(21,22,44,45,46,47,48,49,50,53,54,55,56,58,59,
+   60,61,62,65,66,67,
+   68,69,70,71,72,73,74,75,77,78,80,81,82,83,84,87,99,100,101,105,118,119,
+   120,128,129,
+   130,131,132,133,134,135,141,142,143,144,145,147,149,151,
+   204,209,211,218,219,220,221,
+   222,223,224,225,226,227,228,229,237,238,239,252,253,257,
+   260,261,265,266,268,269,270,
+   276,281,290,292,293,294,295,296,302,309,319,321,322,323,324,325,327,
+   330,331,332,333,
+   335,336,337,339,340,346,347,357,359,367,375,377,378,379,
+   381,384,386,392,393,394,405,
+   406,410,418,427,437,442,443,444,448,449,450,454,455,456,459,
+   460,461,464,465,467,481,
+   487,489,490,491,492,493,495,497,501,502,503,504,505,506,507,514,515,
+   522,523,529,539,
+   540,541,542,543,544,546,548,549,
+   550,551,552,553,554,555,556,557,558,559,560,561,562,
+   565,566,567,568,569,571,584,585,586,589,590,592,593,594,595)
+> sen90$m <- length(selector)
+> sen90$votes <- sen90$votes[,selector]
+\end{verbatim}
+
+\pkg{wnominate} takes a number of arguments described fully in
+the documentation. Most of the arguments can (and probably should)
+be left at their defaults, particularly when estimating ideal
+points from U.S. Congresses.  The default options estimate ideal
+points in two dimensions without standard errors, using the same
+beta and weight parameters as described in the introduction. Votes
+where the losing side has less than 2.5 per cent of the vote, and
+legislators who vote less than 20 times are excluded from
+analysis.
+
+The most important argument that \pkg{wnominate} requires is a
+set of legislators who have positive ideal points in each dimension. 
+This is the \code{polarity} argument to \pkg{wnominate}. In two 
+dimensions, this might mean a fiscally conservative legislator on 
+the first dimension, and a socially conservative legislator on the 
+second dimension. Polarity can be set in a number of ways, such as a 
+vector of row indices (the recommended method), a vector of names, 
+or by any arbitrary column in the \code{legis.data} element of the 
+\verb@rollcall@ object.  Here, we use Senators Sparkman and Bartlett 
+to set the polarity for the estimation.  The names of the first 12 
+legislators are shown, and we can see that Sparkman and Bartlett are 
+the second and fifth legislators respectively.
+
+<<two>>=
+rownames(sen90$votes)[1:12]
+result <- wnominate(sen90, polarity=c(2,5))
+@
+
+\verb@result@ now contains all of the information from the
+W-NOMINATE estimation, the details of which are fully described in
+the documentation for \pkg{wnominate}.
+\code{result$legislators} contains all of the information from the
+\code{nom31.dat} file from the old FORTRAN \emph{wnom9707()} program,
+while \code{result$rollcalls} contains all of the information from
+the old \code{nom33.dat} file.  The information can be browsed
+using the \code{fix} command as follows (not run):\\
+\begin{verbatim}
+> legisdata <- result$legislators
+> fix(legisdata)
+\end{verbatim}
+
+For those interested in just the ideal points, a much better way
+to do this is to use the \code{summary()} function:
+
+<<three>>=
+summary(result)
+@
+
+\code{result} can also be plotted, with a basic summary plot
+achieved as follows as shown Figure 1. This basic plot splits the 
+window into 4 parts and calls \code{plot.coords}, 
+\code{plot.angles}, \code{plot.skree}, and 
+\code{plot.cutlines} sequentially.  Each of these four functions 
+can also be called individually.  In this example, the coordinate 
+plot on the top left plots each legislator with their party 
+affiliation. A unit circle is included to illustrate how W-NOMINATE 
+scores are constrained to lie within a unit circle. The cutting 
+angle histogram shows that most votes are well classified by a 
+single dimension (i.e. around 90$^\circ$), although there are a 
+number around 30$^\circ$ as well.  The skree plot shows the first 20 
+eigenvalues, and the rapid decline after the second eigenvalue 
+suggests that a two-dimensional model describes the voting behavior 
+of the 90th Senate well.  The final plot shows 50 random cutlines, 
+and can be modified to show any desired number of cutlines as 
+necessary.
+
+
+\begin{figure}
+\begin{center}
+<<label=four,fig=TRUE,echo=TRUE>>=
+plot(result)
+@
+\end{center}
+\caption{Summary Plot of 90th Senate W-NOMINATE Scores}
+\label{fig:one}
+\end{figure}
+
+
+Three things should be noted about the use of the \code{plot}
+functions. First, the functions always plot the results from the
+first two dimensions, but the dimensions used (as well as titles and 
+subheadings) can all be changed by the user if, for example, they 
+wish to plot dimensions 2 and 3 instead.  Secondly, plots of one 
+dimensional \code{wnominate} objects work somewhat differently than 
+in two dimensions.  Finally, \code{plot.coords} can be modified to include 
+cutlines from whichever votes the user desires.  The cutline of the 
+14th agricultural vote (corresponding to the 58th actual vote) from 
+the 90th Senate with ideal points is plotted below in Figure 2, 
+showing that the vote largely broke down along partisan lines.
+
+\begin{figure}
+  \centering
+<<label=five,fig=TRUE,echo=TRUE>>=
+par(mfrow=c(1,1))
+plot.coords(result,cutline=58)
+@
+\caption{90th Senate W-NOMINATE Scores with Cutline for the 58th vote}
+\label{fig:two}
+\end{figure}
+
+\section{W-NOMINATE with an arbitrary vote matrix}
+
+This section describes an example of W-NOMINATE being used for roll 
+call data not already in \emph{ORD} format.  The example here is 
+drawn from the first three sessions of the United Nations, discussed 
+further as Figure 5.8 in Keith Poole's \emph{Spatial Models of 
+Parliamentary Voting} (\citeyear{Poole}).
+
+To create a \code{rollcall} object for use with \pkg{wnominate},
+one ideally should have three things:
+
+\begin{itemize} \item A matrix of votes from some source. The matrix 
+should be arranged as a \textit{legislators} $\times$ \textit{votes} 
+matrix.  Previous versions of W-NOMINATE required that Yeas be coded 
+as 1, Nays as 6, and missing votes as 9.  In this package however, 
+Yeas, Nays and missing votes can be coded arbitrarily.
+
+\item A vector of names for each member in the vote matrix.
+
+\item OPTIONAL: A vector describing the party or party-like
+memberships for the legislator.
+
+\end{itemize}
+
+The \pkg{wnominate} package includes all three of these items for
+the United Nations, which can be loaded and browsed with the code 
+shown below.  The data comes from Eric Voeten at George Washington 
+University. In practice, one would prepare a roll call data set in a 
+spreadsheet, like the one available at 
+\url{www.voteview.com/UN.csv}, and read it into \proglang{R} using 
+\code{read.csv}. The \code{csv} file is also stored in this package and can 
+be read using:
+\begin{verbatim}
+   UN <- read.csv("library/wnominate/data/UN.csv",header=FALSE,strip.white=TRUE)
+\end{verbatim}
+These data are included in the \pkg{wnominate} package, and can
+accessed as follows:
+<<UN1>>=
+rm(list=ls(all=TRUE))
+data(UN)
+UN<-as.matrix(UN)
+UN[1:5,1:6]
+@
+
+Observe that the first column are the names of the legislators
+(in this case, countries), and the second column lists whether a
+country is a ``Warsaw Pact'' country or ``Other'', which in this case can
+be thought of as a `party' variable.  All other observations are votes.
+Our objective here is to use this data to create a \verb@rollcall@ object
+through the \code{rollcall} function in \pkg{pscl}.  The object can then
+be used with \pkg{wnominate} and its plot/summary functions as in the
+previous \emph{ORD} example.
+
+To do this, we want to extract a vector of names (\code{UNnames}) and party
+memberships (\code{party}), then delete them from the original matrix so we
+have a matrix of nothing but votes. The \code{party} variable must be rolled
+into a matrix as well for inclusion in the \code{rollcall} object as
+follows:
+
+<<UN2>>=
+UNnames <- UN[,1]
+legData <- matrix(UN[,2],length(UN[,2]),1)
+colnames(legData) <- "party"
+UN <- UN[,-c(1,2)]
+@
+
+In this particular vote matrix, Yeas are numbered 1, 2, and 3, Nays are
+4, 5, and 6, abstentions are 7, 8, and 9, and 0s are missing.  Other vote
+matrices are likely different so the call to \code{rollcall} will be slightly
+different depending on how votes are coded.  Party identification is included
+in the function call through \code{legData}, and a \code{rollcall} object is
+generated and applied to \code{wnominate} as follows.  The result is summarized below
+and plotted in Figure 3:
+
+<<UN3>>=
+rc <- rollcall(UN, yea=c(1,2,3), nay=c(4,5,6),
+               missing=c(7,8,9), notInLegis=0, 
+               legis.names=UNnames,
+               legis.data=legData,
+               desc="UN Votes",
+               source="www.voteview.com")
+result <- wnominate(rc,polarity=c(1,1))
+@
+
+<<UN5>>=
+summary(result)
+@
+
+\begin{figure}
+\begin{center}
+<<label=UN4,fig=TRUE,echo=TRUE>>=
+plot(result)
+@
+\end{center}
+\caption{Summary Plot of UN Data}
+\label{fig:three}
+\end{figure}
+
+\section{Natural Experiments with W-NOMINATE}
+
+In addition to analyzing pre-gathered roll call data, the
+\pkg{wnominate} package in \proglang{R} can also be used to conduct
+natural experiments using roll calls.  These roll call experiments
+have been used extensively in the literature to test for effects on
+first dimension W-NOMINATE scores from events such as party switching,
+redistricting, and last-period effects \citep{NokkenPoole, Goodman}.
+The \pkg{wnominate} package simplifies this procedure into two
+important ways.  First, existing \proglang{R} functions in the base
+package can be leveraged to merge roll call data sets for
+experimentation more easily than before. Secondly, the \pkg{wnominate}
+incorporates a bootstrapping function that allows uncertainty
+estimates from the experiments to be derived easily.
+
+We demonstrate this new functionality with an example.  In this roll
+call experiment, we are interested in determining the identities of
+the most erratic senators who served throughout the 105th-108th U.S.
+Senate.  By ``erratic'' in this context, we mean the legislator
+whose voting record has varied by the widest gap along their first
+dimension W-NOMINATE score.  Following the logic described in
+chapter 6 of \citet{Poole}, we conduct this experiment by treating 
+the legislator as four separate individuals --- one during the 105th 
+Senate, another during the 106th Senate, and so on. By examining the 
+shift in ideal points for each legislator between the four 
+legislatures, we are able to gain some insight into this problem.
+
+More specifically, we begin by generating a list of all senators who
+served throughout the entire 105th-108th Senate, with 70
+senators meeting this criteria. Taking the 105th Senate as an
+example to begin the estimation, we then take one of the 70 senators
+and isolate their voting record for that Senate (i.e. rename them in
+the data set) before merging the data sets of the four Senates
+together. Taking Senator John McCain as an example, we would
+estimate an ideal point for McCain's voting in the 105th Congress,
+an ideal point for his voting from the 106th to 108th Congresses,
+and an ideal point for every other senator who has ever served in
+the 105th-108th Senates. The idea behind this estimation is to allow
+McCain's ideal point in the 105th to shift independently, while all
+other Senators are held fixed.  The ideal point for McCain's voting
+in the 105th Senate is recorded, and the process repeated for the
+106th-108th Senates, as well as for all legislators.
+
+Once the entire legislature has been estimated, each of the 70
+Senators who served throughout the entire 105th-108th now have four
+separate ideal points corresponding to each separate Congress.  The
+shift for each legislator is then computed simply as the difference
+between their maximum and minimum W-NOMINATE scores, and standard
+errors for that difference can be obtained simply as the standard
+error of a difference $\sigma_{a-b} =
+\sqrt{\sigma_{a}^2+\sigma_{b}^2}$ (assuming
+independence).\footnote{The assumption of independence is clearly
+  conservative, as the covariance between estimates is almost
+  certainly positive (thus deflating the standard error).  Even with a
+  conservative confidence interval, however, we are able to reject the
+  probability of 0 shift, as shown in the example.}
+
+The example can be summarized in the pseudocode below:
+\texttt{
+\begin{tabbing} 
+for(i \=  from 1 to 70 senators) \{\\
+    \>for(j \=  from 105th to 108th Senate) \{\\
+        \>\>Make $Senator_{ij}$ a separate individual\\
+        \>\>Merge all the roll call data from j=105:108\\
+        \>\>\=Estimate the new roll call matrix, \\
+        \>\>\>recording the ideal point of $Senator_{ij}$\\
+    \>\}\\
+\}
+\end{tabbing}
+}
+
+\texttt{
+Shift($Senator_{i}$) = max($Senator_{ij}$) - min($Senator_{ij}$)\\
+}
+
+Figure~\ref{fig:shifts} represents the results of this roll call
+experiment in a graphical manner.  For each of the N=70 senators who
+served throughout the entire 105th-108th term, the figure plots the
+rank of that individual's shift against their actual shift.  The
+results suggest that two senators in particular shifted their ideal
+points by a particularly large amount: Senators Robert Byrd (D--WV)
+and Arlen Specter (R--PA).  Byrd shifted 0.422 units to the left
+(-0.478 to -0.900) between the 106th to the 108th Congress, while
+Specter shifted 0.395 units to the right (-0.085 to 0.310) between the
+105th to the 108th Congress.  This contrasts with a mean shift of
+0.157 units for all senators in the sample, with a standard deviation
+for the shifts of 0.081.  The 95\% per cent confidence intervals shown
+with the Byrd and Specter ideal point shifts suggest that these shifts
+are statistically significant.  After Byrd and Specter, the senators
+exhibiting the largest shift in their ideal points are (in descending
+order) Bob Graham (D--FL), John Breaux (D--LA), and Max Baucus
+(D--MT).
+
+
+\begin{figure}
+\begin{center}
+<<label=shift,fig=TRUE,echo=TRUE,keep.source=TRUE>>=
+data <- read.csv("senators.csv") 
+plot(rank(data$shift),
+    data$shift,
+    ylim=c(0,0.6),
+    main="105th - 108th Senate W-NOMINATE Shifts",
+    xlab="Representative",
+    ylab="Shift Distance",
+    cex.main=1.2,
+    cex.lab=1.2,
+    font.main=2,
+    pch=20)
+
+seByrd <- sqrt(0.06366407^2+0.03651869^2)
+seSpecter <- sqrt(0.104247^2+0.03969758^2)
+
+lines(c(69,69),c(data[66,2]-1.96*seSpecter,data[66,2]+1.96*seSpecter))
+lines(c(70,70),c(data[66,2]-1.96*seByrd,data[66,2]+1.96*seByrd))
+
+text(57,0.43,"Byrd (D - WV)",cex=1.2) 
+text(54,0.39,"Specter (R - PA)",cex=1.2)
+
+
+@
+\end{center}
+\caption{Summary Plot of 104th to 108th Senate Shifts}
+\label{fig:shifts}
+\end{figure}
+
+\section{Conclusion}
+
+W-NOMINATE has been a salient part of political science research for 
+over three decades, contributing significantly to our understanding 
+of how roll call votes evolve.  However, it is our belief that more 
+remains to be done, particularly in applying W-NOMINATE to the study 
+of legislative voting outside the United States.  This research 
+agenda has been hindered in the past by the need to use 
+ORD-formatted data, the lack of ``canned'' graphical functions, and 
+difficulties in manipulating data sets.  It is our hope that the 
+release of this package into the public domain can eliminate some of 
+these barriers and increase interest in the study of roll call 
+voting.
+
+\appendix
+\section{Appendix: Code for Natural Experiment}
+
+Load the data and package:
+
+@ 
+<<foo,eval=FALSE>>=
+library(wnominate)
+data <- list()
+for(k in 105:108) 
+  data[[k]] <- readKH(sprintf("ftp://voteview.com/sen%ikh.ord",k))
+@ %def 
+
+The following function is used to merge roll call matrices for
+estimation: \code{member} is a string, the name of the member, and
+\code{legis} is the legislature of member to be isolated.
+
+@ 
+<<buildFunc,eval=FALSE>>=
+buildbigmatrix <- function(data,member,legis){
+  index < -which(rownames(data[[legis]]$votes)==member)
+  rownames(data[[legis]]$votes)[index] <- paste(member,legis)
+  merged<-data[[105]]$votes
+  for(i in 106:108){
+    merged <- merge(merged,data[[i]]$votes,by=0,all=TRUE)
+    rownames(merged) <- merged$Row.names
+    merged$Row.names <- NULL
+    merged[is.na(merged)] <- 9
+  }
+ return(merged)
+}
+@ %def 
+
+Here, we only calculate Byrd's coordinate for the 108th Congress.  Add
+a list of all senators as ``members'' if all senators are desired
+(remove comments).  Change \code{legis} to \code{legs <- 105:108} if all
+legislatures are desired.  Warning: even this single calculation takes
+a very long time.
+
+@ 
+<<warning,eval=FALSE,keep.source=TRUE>>=
+#a<-intersect(rownames(data[[105]]$votes),rownames(data[[106]]$votes))
+#b<-intersect(rownames(data[[107]]$votes),rownames(data[[108]]$votes)) 
+#members<-intersect(a,b) 
+members<-"BYRD (D WV)" 
+legis <- 105
+coords <- matrix(nrow=length(members),
+                  ncol=length(legis)+1)
+rownames(coords) <- members
+colnames(coords) <- c(legis,"shift")
+@ %def 
+
+
+If standard errors are desired, include this code to create storage
+for SEs.  Again, this increases computation time significantly.  Also,
+be sure to uncomment the other SE-related messages below.
+
+@ 
+<<errors,eval=FALSE,keep.source=TRUE>>=
+errors <- coords
+@ %def 
+
+Now conduct the estimation:
+@ 
+<<SEs,eval=FALSE,keep.source=TRUE>>=
+for(i in 1:length(members)){
+  for(j in 1:length(legis)){
+    votes<-buildbigmatrix(data,members[i],legis[j])
+    rm(partycodes,state.info)
+    pol <- which(rownames(votes)=="FRIST (R TN)")
+    dat <- rollcall(votes, yea=1:3,nay=4:6,missing=7:9,
+                    notInLegis=0,
+                    legis.names=rownames(votes))
+
+    ##Set `trials=10' below if bootstrap for standard errors is desired
+    result <- wnominate(dat,dims=1,polarity=pol,trials=1,lop=0.025)
+    coords[i,j] <- result$legislators[paste(members[i],legis[j]),"coord1D"]
+
+    ##errors[i,j]<-result$legislators[paste(members[i],legis[j]),"se1D"]
+    rm(votes,pol,result)
+  }
+}
+@ %def 
+
+If all four legislatures are calculated, legislator shift can be
+obtained as follows:
+
+@ 
+<<coords,eval=FALSE,keep.source=TRUE>>=
+coords[,"shift"] <- apply(coords,1,max,na.rm=TRUE) - 
+  apply(coords,1,min,na.rm=TRUE)
+@ %def 
+
+\bibliographystyle{jss}
+\bibliography{biblio} 
+
+\end{document}

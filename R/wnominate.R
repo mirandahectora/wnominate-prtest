@@ -323,11 +323,18 @@ wnominate <- function(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
     legClassify <- matrix(res$classify[1:(4*res[[2]])], nrow=res[[2]], ncol=4, byrow=TRUE)
     rcClassify <- matrix(res$classify[(4*res[[2]]+1):length(res$classify)],
                     nrow=res[[3]], ncol=4, byrow=TRUE)
-    legPRE <- apply(cbind(legClassify[,1]+legClassify[,3],legClassify[,2]+legClassify[,4]),1, min)
-    legPRE <- (legPRE-legClassify[,2]-legClassify[,3])/legPRE
+
+    ## These equations preceeded wnomiante 0.96 and are incorrect, according to May 29, 2011 email 
+    #legPRE <- apply(cbind(legClassify[,1]+legClassify[,3],legClassify[,2]+legClassify[,4]),1, min)
+    #legPRE <- (legPRE-legClassify[,2]-legClassify[,3])/legPRE
+
     rcPRE <- apply(cbind(rcClassify[,1]+rcClassify[,3],rcClassify[,2]+rcClassify[,4]),1, min)
     rcPRE <- (rcPRE-rcClassify[,2]-rcClassify[,3])/rcPRE
 
+    ## Legislator Correct Classification replaces PRE from May 29, 2011
+    ## CC = (correctYea+correctNay)/(correctYea+wrongYea+wrongNay+correctNay)
+    legCC <- (legClassify[,1] + legClassify[,4])/apply(legClassify,1,sum)
+    
     tempRC<-cbind(rcClassify,
                     res$gmp[(res[[2]]+1):length(res$gmp)],
                     rcPRE,
@@ -336,7 +343,7 @@ wnominate <- function(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
 
     tempLegis<-cbind(legClassify,
                     res$gmp[1:res[[2]]],
-                    legPRE,
+                    legCC,
                     matrix(res$idealpoints, nrow=res[[2]], ncol=dims),
                     matrix(res$covariance,nrow=res[[2]],ncol=dims+choose(dims,2)))
 
@@ -347,11 +354,11 @@ wnominate <- function(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
 
     if(choose(dims,2)==0){
         colnames(legislators)<-c("correctYea", "wrongYea", "wrongNay", "correctNay",
-            "GMP", "PRE", paste("coord",1:dims,"D",sep=""),
+            "GMP", "CC", paste("coord",1:dims,"D",sep=""),
             paste("se",1:dims,"D",sep=""))
     } else {
         colnames(legislators)<-c("correctYea", "wrongYea", "wrongNay", "correctNay",
-            "GMP", "PRE", paste("coord",1:dims,"D",sep=""), paste("se",1:dims,
+            "GMP", "CC", paste("coord",1:dims,"D",sep=""), paste("se",1:dims,
             "D",sep=""), paste("corr.",1:choose(dims,2),sep=""))
     }
 

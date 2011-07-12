@@ -207,7 +207,7 @@ plot.coords <- function (x, main.title="W-NOMINATE Coordinates",
     }
 }
 
-plot.skree <- function(x, main.title="Skree Plot", x.title="Dimension",
+plot.scree <- function(x, main.title="Scree Plot", x.title="Dimension",
                         y.title="Eigenvalue",...) {
 
     if(!class(x)=="nomObject")
@@ -238,12 +238,12 @@ plot.nomObject <- function(x,dims=c(1,2),...) {
     if(x$dimensions==1) {
         par(mfrow=c(1,2))       
         suppressWarnings(plot.coords(x,dims=dims))
-        suppressWarnings(plot.skree(x,dims=dims))
+        suppressWarnings(plot.scree(x,dims=dims))
     } else {
         par(mfrow=c(2,2))
         suppressWarnings(plot.coords(x,dims=dims))
         suppressWarnings(plot.angles(x,dims=dims))
-        suppressWarnings(plot.skree(x,dims=dims))
+        suppressWarnings(plot.scree(x,dims=dims))
         suppressWarnings(plot.cutlines(x,dims=dims,lwd=1))
     }
 }               

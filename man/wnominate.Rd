@@ -62,7 +62,7 @@ wnominate(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
     \item{\code{wrongNay}}{Predicted Nays and Actual Yeas.}
     \item{\code{correctNay}}{Predicted Nays and Actual Nays.}
     \item{\code{GMP}}{Geometric Mean Probability.}
-    \item{\code{PRE}}{Proportional Reduction In Error.}
+    \item{\code{CC}}{Correct Classification.}
     \item{\code{coord1D}}{First dimension W-NOMINATE score, with all subsequent dimensions
                     numbered similarly.}
     \item{\code{se1D}}{Bootstrapped standard error of first dimension W-NOMINATE score,

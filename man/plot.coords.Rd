@@ -51,7 +51,7 @@ Royce Carroll \email{rcarroll@rice.edu}
 }
 
 \seealso{
-  '\link{wnominate}', '\link{plot.skree}', '\link{plot.cutlines}', '\link{plot.angles}',
+  '\link{wnominate}', '\link{plot.scree}', '\link{plot.cutlines}', '\link{plot.angles}',
   '\link{plot.nomObject}'
 }
 

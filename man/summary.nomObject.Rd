@@ -33,7 +33,7 @@ Royce Carroll \email{rcarroll@rice.edu}
 
 
 \seealso{
-  '\link{wnominate}', '\link{plot.coords}', '\link{plot.skree}', '\link{plot.angles}',
+  '\link{wnominate}', '\link{plot.coords}', '\link{plot.scree}', '\link{plot.angles}',
   '\link{plot.cutlines}', '\link{plot.nomObject}'
 }
 
