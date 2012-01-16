@@ -1537,7 +1537,7 @@
   8   ZZZ(K)=ZZZ(K)+XXXX(J,K)+XC*(XX(II,K)-XXXX(J,K))
   4   CONTINUE
 !      IF(KK.EQ.0)WRITE(23,310)II
-      IF(KK.EQ.0)STOP
+!      IF(KK.EQ.0)STOP
 !  310 FORMAT(' THIS IS YOUR PROBLEM STUPID!!!',I6)
       DO 1 K=1,NS
   1   XX(II,K)=ZZZ(K)/FLOAT(KK)
@@ -4136,11 +4136,11 @@
 !
            DALPHA=SQRT(XGAM)*COSB
            DBETA =SQRT(XPSI)*COSA
-           IF(ABS(2.0-DALPHA-DBETA).GT..001)THEN
+!           IF(ABS(2.0-DALPHA-DBETA).GT..001)THEN
 !              WRITE(11,1006)KKS,NDIM,NEQ,T,XPSI,XGAM,COSB,COSA,
 !     C                       DALPHA,DBETA
-              STOP
-           ENDIF
+!              STOP
+!           ENDIF
 !
 !  FIND POINT C ALONG A TO B LINE THROUGH CENTER OF HYPERSPHERE
 !

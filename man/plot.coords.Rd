@@ -11,10 +11,10 @@
 }
 
 \usage{
-plot.coords(x, main.title="W-NOMINATE Coordinates",
+\method{plot}{coords}(x, main.title="W-NOMINATE Coordinates",
     d1.title="First Dimension", d2.title="Second Dimension", dims=c(1,2),
     plotBy="party", color=TRUE, shape=TRUE, cutline=NULL, Legend=TRUE,
-    legend.x=0.8, legend.y=1, ...)            
+    legend.x=0.8, legend.y=1, \ldots)            
 }
 
 \arguments{

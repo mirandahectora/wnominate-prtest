@@ -9,7 +9,7 @@
 }
 
 \usage{
-plot.nomObject(x, dims=c(1,2), ...)              
+\method{plot}{nomObject}(x, dims=c(1,2), \ldots)              
 }
 
 \arguments{

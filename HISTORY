@@ -26,3 +26,12 @@
 	*All links to plot.skree() changed for this purpose, including all documentation and functions
 	*Legislator PRE replaced with legislator CC, change reflected in documentation
 	*JSS publication is now the vignette
+
+0.98	* Changed to comply with new Command Check. 2.14.1
+	* .onLoad() changed to conform using packageStartupMessage()
+	* require() in .onLoad() removed
+	* WRITE statements in code all taken out to remove warnings
+	* plot/summary function documentation coded using \method markup
+	* Some are not true S3 methods, but coded that way to allow for backwards compatibility
+	* Extra graphic files deleted from inst/doc
+

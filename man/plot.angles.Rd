@@ -8,10 +8,9 @@
 }
 
 \usage{
-plot.angles(x, main.title="Cutting Line Angles",
+\method{plot}{angles}(x, main.title="Cutting Line Angles",
         x.title="Angle in Degrees", y.title="Count",
-        dims=c(1,2),...)
-
+        dims=c(1,2),\ldots)
 }
 
 \arguments{
