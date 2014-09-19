@@ -1,6 +1,6 @@
-.First.lib <- function(lib,pkg) {
-   library.dynam("wnominate",pkg,lib)
-}
+#.First.lib <- function(lib,pkg) {
+#   library.dynam("wnominate",pkg,lib)
+#}
 
 # function: qnprob
 # Note: Beta and dimweight are unused and only passed
