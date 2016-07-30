@@ -40,7 +40,10 @@
 
 
 0.99	*Vignette directory changed for R 3.1
-		*.First.lib use deprecated and removed
-		*test function folder removed
+	*.First.lib use deprecated and removed
+	*test function folder removed
 
-
+1.2	* Period removed from title
+	* NAMESPACE fixes S3 methods and adds importFrom()
+	* Maintainer changes from jameslo@princeton.edu to lojames@usc.edu
+	* Wnominate sen90 example runtime shortened	

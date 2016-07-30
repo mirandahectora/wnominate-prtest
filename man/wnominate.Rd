@@ -103,7 +103,7 @@ Keith Poole \email{ktpoole@uga.edu}
 
 Jeffrey Lewis \email{jblewis@ucla.edu}
 
-James Lo \email{lo@uni-mannheim.de}
+James Lo \email{lojames@usc.edu}
 
 Royce Carroll \email{rcarroll@rice.edu}
 }
@@ -114,7 +114,7 @@ Jeffrey Lewis. \url{ http://adric.sscnet.ucla.edu/rollcall/}
 Keith Poole and Howard Rosenthal. 1997. 'Congress: A Political-Economic History of
 Roll Call Voting.' New York: Oxford University Press.
 
-Keith Poole. \url{ http://voteview.ucsd.edu/ }
+Keith Poole. \url{ http://voteview.com/ }
 
 Keith Poole, Jeffrey Lewis, James Lo, and Royce Carroll. 2011. `Scaling Roll Call Votes with WNOMINATE in R.' Journal of Statistical Software, 42(14), 1-21. \url{ http://www.jstatsoft.org/v42/i14/}
 
@@ -131,10 +131,10 @@ Keith Poole, Jeffrey Lewis, James Lo, and Royce Carroll. 2011. `Scaling Roll Cal
     data(sen90)
     
     summary(sen90)
-    result<-wnominate(sen90,polarity=c(2,5))
-    #'result' is the same nomObject as found in 
-    #data(sen90nomObject)
-    summary(result)
-    plot(result)
+    #sen90wnom <- wnominate(sen90,polarity=c(2,5))
+    #'sen90wnom' is the same nomObject as found in 
+    data(sen90wnom)
+    summary(sen90wnom)
+    plot(sen90wnom)
 }
 \keyword{ multivariate }

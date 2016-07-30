@@ -63,7 +63,7 @@ Keith Poole \email{ktpoole@uga.edu}
 
 Jeffrey Lewis \email{jblewis@ucla.edu}
 
-James Lo \email{lo@uni-mannheim.de}
+James Lo \email{lojames@usc.edu}
 
 Royce Carroll \email{rcarroll@rice.edu}
 }
@@ -79,9 +79,11 @@ Royce Carroll \email{rcarroll@rice.edu}
     data(sen90)
     
     summary(sen90)
-    result<-wnominate(sen90,polarity=c(2,5))
-    summary(result)
-    plot(result)
+    #sen90wnom <- wnominate(sen90,polarity=c(2,5))
+    #'sen90wnom' is the same nomObject as found in 
+    data(sen90wnom)
+    summary(sen90wnom)
+    plot(sen90wnom)
 }
 
 \keyword{datasets}

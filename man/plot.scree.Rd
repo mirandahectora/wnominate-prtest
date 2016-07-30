@@ -28,7 +28,7 @@ Keith Poole \email{ktpoole@uga.edu}
 
 Jeffrey Lewis \email{jblewis@ucla.edu}
 
-James Lo \email{lo@uni-mannheim.de}
+James Lo \email{lojames@usc.edu}
 
 Royce Carroll \email{rcarroll@rice.edu}
 }

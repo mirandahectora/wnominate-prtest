@@ -2,7 +2,18 @@ useDynLib(wnominate)
 
 export(wnominate,generateTestData,nomprob,plot.coords,
 plot.angles,plot.cutlines,plot.scree,plot.nomObject,summary.nomObject,qnprob)
-import(pscl)
 
+import(pscl)
+importFrom("grDevices", "colors")
+importFrom("graphics", "hist", "legend", "lines", "par", "plot", "points", "symbols")
+importFrom("stats", "na.omit", "plogis", "pnorm", "rnorm", "runif")
+importFrom("utils", "flush.console")
+     
+     
 S3method(plot,nomObject)
 S3method(summary,nomObject)
+
+S3method(plot,angles)
+S3method(plot,coords)
+S3method(plot,cutlines)
+S3method(plot,scree)

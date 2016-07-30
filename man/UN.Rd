@@ -37,7 +37,7 @@ Keith Poole \email{ktpoole@uga.edu}
 
 Jeffrey Lewis \email{jblewis@ucla.edu}
 
-James Lo \email{lo@uni-mannheim.de}
+James Lo \email{lojames@usc.edu}
 
 Royce Carroll \email{rcarroll@rice.edu}
 }
@@ -66,9 +66,10 @@ legis.data=legData,
 desc="UN Votes",
 source="www.voteview.com")
 
-result<-wnominate(rc,polarity=c(1,1))
-plot(result)
-summary(result)
+# Not run
+#result<-wnominate(rc,polarity=c(1,1))
+#plot(result)
+#summary(result)
 }
 
 \keyword{datasets}
