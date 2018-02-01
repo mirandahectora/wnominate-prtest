@@ -1,10 +1,10 @@
 90efd245cf4537cdf32d3488055cb0b2 *ChangeLog
-4924798e66cf11d63bf7254ee18ff14a *DESCRIPTION
+8b0075baa5c0b71efc7e0d3d7a4dfc56 *DESCRIPTION
 59534bdcf443d8cbbb8b8aae9c5381bc *NAMESPACE
 c659c37e7abd17abe3fbcfdac9e78d40 *R/header.R
 b77c6bf011edaeea6cf6ef4e6bc60524 *R/methods.R
 d55e193a649176ca8498ade0d9c3c6b5 *R/wnominate.R
-4167b51e654f8214bd400d276c58fbe6 *build/vignette.rds
+4741776867ab47044be1375f8491c390 *build/vignette.rds
 40b0677bd6bca8f28954f59afa0ae7ad *data/UN.csv.gz
 ecad292d1a39fec6314348c0bba23c81 *data/UN.rda
 2afb2b81865e5627f4e52053bc05decc *data/sen90.rda
@@ -12,7 +12,7 @@ ecad292d1a39fec6314348c0bba23c81 *data/UN.rda
 d7f79f367dab55d704c12a27753b7084 *inst/CITATION
 2a13ba2e84466980fbde31a36e5a76f8 *inst/doc/wnominate.R
 e8a660320eef2d1d9d6eddabfa3155cb *inst/doc/wnominate.Rnw
-dc1b1984c15854403f1a5fa4803e0f67 *inst/doc/wnominate.pdf
+85c8d676851f7af7cc08691846d0598d *inst/doc/wnominate.pdf
 45ab963eb81a02576859727e58418d51 *man/UN.Rd
 592387fb6a1ddeb7c120d050383649d6 *man/generateTestData.Rd
 581a3046dca68921f549686877a88093 *man/nomprob.Rd
@@ -26,10 +26,10 @@ ca943bf168976d97ac31a9059df7b93a *man/plot.cutlines.Rd
 d153e2abe75294bc2bd8511f79300b2e *man/sen90wnom.Rd
 6e71719b1468f07125ad8ad8eed6cebe *man/summary.nomObject.Rd
 5b1bc1f78ed827e8f729b49488a851f8 *man/wnominate.Rd
-384316b1205e86fb857ee5dcb0657d4e *src/Makevars
 c2da230109dab14b48eaadad6020a11c *src/Makevars.win
+cd331d1ecc4e8e19dc7824ed63edcdc9 *src/init.c
 dc00eec65edd297f5997ca46e299e81d *src/nomprob.c
 8db9e2d5ea483299c2c944518dd3ba41 *src/random_wrap.c
-b2c252e9b28c2a6d9d64cc6956f32016 *src/wnominate.f90
+0a8b196baa2127a23dad3343963a84c2 *src/wnominate.f90
 4ddd4ebd6c34f5e3871b82ee52a4270e *src/wrap_output.c
 e8a660320eef2d1d9d6eddabfa3155cb *vignettes/wnominate.Rnw

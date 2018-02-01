@@ -1029,13 +1029,13 @@
   657 CONTINUE
       ENDIF
 !
-      CLOSE(11)
-      CLOSE(21)
-      CLOSE(23)
-      CLOSE(26)
-      CLOSE(31)
-      CLOSE(33)
-      CLOSE(36)
+!      CLOSE(11)
+!      CLOSE(21)
+!      CLOSE(23)
+!      CLOSE(26)
+!      CLOSE(31)
+!      CLOSE(33)
+!      CLOSE(36)
 !
 !  SHUT DOWN RANDOM NUMBER GENERATOR
 !
