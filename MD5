@@ -1,5 +1,5 @@
 90efd245cf4537cdf32d3488055cb0b2 *ChangeLog
-8b0075baa5c0b71efc7e0d3d7a4dfc56 *DESCRIPTION
+457fbcce89e39ff4c880af27b0477895 *DESCRIPTION
 59534bdcf443d8cbbb8b8aae9c5381bc *NAMESPACE
 c659c37e7abd17abe3fbcfdac9e78d40 *R/header.R
 b77c6bf011edaeea6cf6ef4e6bc60524 *R/methods.R
@@ -26,10 +26,9 @@ ca943bf168976d97ac31a9059df7b93a *man/plot.cutlines.Rd
 d153e2abe75294bc2bd8511f79300b2e *man/sen90wnom.Rd
 6e71719b1468f07125ad8ad8eed6cebe *man/summary.nomObject.Rd
 5b1bc1f78ed827e8f729b49488a851f8 *man/wnominate.Rd
-c2da230109dab14b48eaadad6020a11c *src/Makevars.win
 cd331d1ecc4e8e19dc7824ed63edcdc9 *src/init.c
 dc00eec65edd297f5997ca46e299e81d *src/nomprob.c
-8db9e2d5ea483299c2c944518dd3ba41 *src/random_wrap.c
+fe50a70013d5fd17c71ed24bee68b1cc *src/random_wrap.c
 0a8b196baa2127a23dad3343963a84c2 *src/wnominate.f90
 4ddd4ebd6c34f5e3871b82ee52a4270e *src/wrap_output.c
 e8a660320eef2d1d9d6eddabfa3155cb *vignettes/wnominate.Rnw

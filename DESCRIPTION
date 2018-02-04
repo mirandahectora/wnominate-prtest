@@ -1,5 +1,5 @@
 Package: wnominate
-Version: 1.2.1
+Version: 1.2.2
 Date: 2016-07-30
 Title: Roll Call Analysis Software
 Author: Keith Poole <ktpoole@uga.edu>, Jeffrey Lewis
@@ -12,8 +12,10 @@ Description: Estimates Poole and Rosenthal W-NOMINATE scores from roll
         'pscl'.
 License: GPL-2
 Repository: CRAN
-Date/Publication: 2018-02-01 07:01:24 UTC
-Packaged: 2018-01-30 19:36:41 UTC; ripley
+Date/Publication: 2018-02-04 14:57:45 UTC
+Packaged: 2018-02-04 14:52:10 UTC; ripley
 NeedsCompilation: yes
 X-CRAN-Original-Maintainer: James Lo <lojames@usc.edu>
 X-CRAN-Comment: Orphaned and corrected on 2018-02-01.
+ .
+ Had Fortran close without open, and incorrect use of SAFE_FFLAGS.

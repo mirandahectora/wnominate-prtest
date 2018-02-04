@@ -1,1 +1,0 @@
-PKG_FCFLAGS = $(SAFE_FFLAGS) --float-store
