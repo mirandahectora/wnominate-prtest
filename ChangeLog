@@ -34,10 +34,7 @@
 	* WRITE statements in code all taken out to remove warnings
 	* plot/summary function documentation coded using \method markup
 	* Some are not true S3 methods, but coded that way to allow for backwards compatibility
-
 	* Extra graphic files deleted from inst/doc
-
-
 
 0.99	*Vignette directory changed for R 3.1
 	*.First.lib use deprecated and removed
@@ -47,3 +44,9 @@
 	* NAMESPACE fixes S3 methods and adds importFrom()
 	* Maintainer changes from jameslo@princeton.edu to lojames@usc.edu
 	* Wnominate sen90 example runtime shortened	
+	
+1.2.5	* Makevars no long uses SAFE_FLAGS
+	* Fixed REAL to INTEGER conversion warnings
+	* Removed deprecated URLs
+	* Cleaned loops
+	* Changed description to include doi, and omits reference to roll call votes, per Uwe Ligges

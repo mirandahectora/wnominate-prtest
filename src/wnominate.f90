@@ -1062,7 +1062,7 @@
       INTEGER, ALLOCATABLE :: LLSUM(:)
       INTEGER, ALLOCATABLE :: MMSUM(:)
       INTEGER, ALLOCATABLE :: NNSUM(:)
-      REAL, ALLOCATABLE :: KD(:)     
+      INTEGER, ALLOCATABLE :: KD(:)     
       ALLOCATE ( KKSUM(NRCALL) )
       ALLOCATE ( LLSUM(NRCALL) )
       ALLOCATE ( MMSUM(NP) )
@@ -1532,7 +1532,7 @@
       ELSE
       XC=D(J)/SQRT(SUM)
       ENDIF
-  52  CONTINUE
+!  52  CONTINUE
       DO 8 K=1,NS
   8   ZZZ(K)=ZZZ(K)+XXXX(J,K)+XC*(XX(II,K)-XXXX(J,K))
   4   CONTINUE
@@ -1644,7 +1644,7 @@
       IF(KFLIP.EQ.2)DYN(J,1)=-DT
       ZSAVE(J,1,1)=DYN(J,1)
       CSAVE(J,1)=ZMID(J,1)
-  33  CONTINUE
+!  33  CONTINUE
   3   CONTINUE
       DEALLOCATE (X)
       DEALLOCATE (KV)
@@ -1791,7 +1791,9 @@
       LD=LEB(I)
   126 CONTINUE
   127 JSAVE=J
-      KPP=AMIN0(KYES,KNO)
+!      KPP=AMIN0(KYES,KNO)
+      KPP=INT(AMIN0(KYES,KNO))
+!
       JKK=LB+LD
       XPRE=FLOAT(KPP-JKK)/FLOAT(KPP)
       NOWRIT=1
@@ -1835,6 +1837,7 @@
 !
       SUBROUTINE RSORT(A,LA,IR)
       DIMENSION A(LA),IU(21),IL(21),IR(LA)
+      REAL TMP
       IF (LA.LE.0) RETURN
       M = 1
       I = 1
@@ -1850,7 +1853,10 @@
 ! SELECT A CENTRAL ELEMENT OF THE  
 ! ARRAY AND SAVE IT IN LOCATION T  
 !
-      IJ = I+(J-I)*R 
+!      IJ = I+(J-I)*R 
+      TMP = REAL(I)+(REAL(J)-REAL(I))*R 
+      IJ = FLOOR(TMP)
+!
       T = A(IJ)   
       IT = IR(IJ) 
 !
@@ -2745,7 +2751,8 @@
 !           IF((LL(1,2)+LL(2,1)).EQ.0)LERIC(NEQ)=0
            LYES=LL(1,1)+LL(2,1)
            LNO =LL(1,2)+LL(2,2)
-           JKP=JKP+AMIN0(LYES,LNO)
+!           JKP=JKP+AMIN0(LYES,LNO)
+           JKP=JKP+INT(AMIN0(LYES,LNO))
            KTP=KTP+LL(1,2)+LL(2,1)
            IF(NEQ.LT.NRCALL)GO TO 1
 !
@@ -3268,7 +3275,7 @@
          BETA=BBB(1)
          WEIGHT=BBB(2)
       ENDIF
-  11  CONTINUE
+!  11  CONTINUE
       DO 27 JJ=1,5
   27  G(JJ)=0.0
       XL=0.0
