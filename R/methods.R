@@ -1,4 +1,3 @@
-
 # Function: add.cutline
 # Reads in output from W-NOMINATE and adds a cutting line to existing plot
 #   INPUTS: a numeric vector of length 4, cutData
@@ -72,8 +71,10 @@ plot.angles <- function(x, main.title="Cutting Line Angles",
         cex.main=1.2,
         cex.lab=1.2,
         font.main=2,
-        at=seq(0,180,10)
+        axes=FALSE,
         ,...))
+    axis(2)
+    axis(1, at=seq(0,180,10))
 }
 
 plot.cutlines <- function(x, main.title="Cutting Lines",
@@ -225,8 +226,10 @@ plot.scree <- function(x, main.title="Scree Plot", x.title="Dimension",
         font.main=2,
         lwd=1,
         pch=16,
-        at=1:20,...))
-
+	axes=FALSE,
+	...))
+   axis(2)
+   axis(1, at=1:20)
 }               
 
 plot.nomObject <- function(x,dims=c(1,2),...) {

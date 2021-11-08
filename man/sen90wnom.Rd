@@ -74,6 +74,7 @@ data(sen90wnom)
 
 \source{
   Keith Poole. 2005. \emph{90th Senate Roll Call Vote Data}.
+  \url{https://www.voteview.com/}.
 }
 
 \author{ 

@@ -29,6 +29,7 @@ data(UN)
 
 \source{
   Keith Poole. 2005. \emph{UN Vote Data}.
+  \url{https://legacy.voteview.com/}.
 }
 
 \author{ 

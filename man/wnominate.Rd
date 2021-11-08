@@ -109,14 +109,13 @@ Royce Carroll \email{rcarroll@rice.edu}
 }
 
 \references{
-Jeffrey Lewis. \url{ http://adric.sscnet.ucla.edu/rollcall/}
 
 Keith Poole and Howard Rosenthal. 1997. 'Congress: A Political-Economic History of
 Roll Call Voting.' New York: Oxford University Press.
 
-Keith Poole. \url{ http://voteview.com/ }
+Jeffrey Lewis. \url{ https://voteview.com/ }
 
-Keith Poole, Jeffrey Lewis, James Lo, and Royce Carroll. 2011. `Scaling Roll Call Votes with WNOMINATE in R.' Journal of Statistical Software, 42(14), 1-21. \url{ http://www.jstatsoft.org/v42/i14/}
+Keith Poole, Jeffrey Lewis, James Lo, and Royce Carroll. 2011. `Scaling Roll Call Votes with WNOMINATE in R.' Journal of Statistical Software, 42(14), 1-21. \url{ https://www.jstatsoft.org/v42/i14/}
 
 }
 

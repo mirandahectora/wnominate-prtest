@@ -152,13 +152,11 @@ in the following sections.
 This is the use case that the majority of \verb@wnominate@ users
 are likely to fall into.  Roll call votes in a fixed width format
 \emph{ORD} format for all U.S. Congresses are stored online for
-download at:
-
-\begin{itemize}
-\item \emph{http://www.voteview.com/} \item
-\emph{http://www.polisci.ucla.edu/faculty/lewis/rollcall/} (latest Congress
-only, updates votes in real time)
-\end{itemize}
+download from \emph{https://www.voteview.com/data}. For example,
+votes from the 117th Congress can be downloaded from
+\begin{center}
+\emph{https://www.voteview.com/static/data/out/votes/H117\_votes.ord}
+\end{center}
 
 \verb@wnominate@ takes \verb@rollcall@ objects from Simon Jackman's
 \verb@pscl@ package as input. The package includes a function,

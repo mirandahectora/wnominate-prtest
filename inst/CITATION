@@ -11,12 +11,12 @@ citEntry(entry = "Article",
   volume       = "42",
   number       = "14",
   pages        = "1--21",
-  url          = "http://www.jstatsoft.org/v42/i14/",
+  url          = "https://www.jstatsoft.org/v42/i14/",
 
   textVersion  =
   paste("Keith Poole, Jeffrey Lewis, James Lo, Royce Carroll (2011).",
         "Scaling Roll Call Votes with wnominate in R.",
         "Journal of Statistical Software, 42(14), 1-21.",
-        "URL http://www.jstatsoft.org/v42/i14/.")
+        "URL https://www.jstatsoft.org/v42/i14/.")
 )
 

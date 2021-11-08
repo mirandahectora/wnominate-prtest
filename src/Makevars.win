@@ -1,1 +1,1 @@
-PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS)
+PKG_FCFLAGS = $(SAFE_FFLAGS) --float-store
