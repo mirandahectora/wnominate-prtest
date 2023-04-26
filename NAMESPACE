@@ -9,7 +9,8 @@ importFrom("graphics", "hist", "legend", "lines", "par", "plot", "points", "symb
 importFrom("stats", "na.omit", "plogis", "pnorm", "rnorm", "runif")
 importFrom("utils", "flush.console")
 importFrom("graphics", "axis")     
-     
+importFrom("methods", "is")
+
 S3method(plot,nomObject)
 S3method(summary,nomObject)
 

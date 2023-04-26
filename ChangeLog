@@ -52,4 +52,5 @@
 	* Modified http:// urls to https://
 	* Updated broken urls in vignette and documentation 
 	* Modified plot methods to resolve "matched by multiple actual arguments errors" arising from ...
-	
+
+1.4     * Add explicit declaration of function random() in random_wrap.c

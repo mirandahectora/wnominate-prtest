@@ -126,7 +126,7 @@ wnominate <- function(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
     }
     
     #Core Error Checking
-    if(!class(rcObject)=="rollcall")
+    if(!is(rcObject, "rollcall"))
         stop("Input is not of class 'rollcall'.")
 
     if(dims>10) stop("'dims' cannot exceed 10\n") 

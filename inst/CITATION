@@ -1,8 +1,9 @@
 citHeader("To cite wnominate in publications use:")
 
-citEntry(entry = "Article",
+bibentry(entry = "Article",
+  bibtype      = "article",
   title        = "Scaling Roll Call Votes with {wnominate} in {R}",
-  author       = personList(as.person("Keith Poole"),
+  author       = c(as.person("Keith Poole"),
                    as.person("Jeffrey Lewis"),
                    as.person("James Lo"),
                    as.person("Royce Carroll")),
@@ -19,4 +20,3 @@ citEntry(entry = "Article",
         "Journal of Statistical Software, 42(14), 1-21.",
         "URL https://www.jstatsoft.org/v42/i14/.")
 )
-

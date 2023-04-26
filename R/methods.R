@@ -40,7 +40,7 @@ add.cutline <- function(cutData,weight,lwd=2) {
 plot.angles <- function(x, main.title="Cutting Line Angles",
         x.title="Angle in Degrees", y.title="Count",dims=c(1,2),...) {
 
-    if(!class(x)=="nomObject")
+    if(!is(x, "nomObject"))
         stop("Input is not of class 'nomObject'.")
     if(x$dimensions==1)
         stop("All angles in 1D NOMINATE are 90 degrees.")
@@ -81,7 +81,7 @@ plot.cutlines <- function(x, main.title="Cutting Lines",
         d1.title="First Dimension", d2.title="Second Dimension",
         lines=50,dims=c(1,2),lwd=2,...) {
 
-    if(!class(x)=="nomObject")
+    if(!is(x, "nomObject"))
         stop("Input is not of class 'nomObject'.")
     if(x$dimensions==1)
         stop("All angles in 1D NOMINATE are 90 degrees.")
@@ -124,7 +124,7 @@ plot.coords <- function (x, main.title="W-NOMINATE Coordinates",
     plotBy="party", color=TRUE, shape=TRUE, cutline=NULL, Legend=TRUE,
     legend.x=0.8,legend.y=1,...) {
    
-    if(!class(x)=="nomObject")
+    if(!is(x, "nomObject"))
         stop("Input is not of class 'nomObject'.")
     if(!any(colnames(x$legislators)==plotBy)){
         warning("Variable '", plotBy ,"' does not exist in your W-NOMINATE object.")
@@ -211,7 +211,7 @@ plot.coords <- function (x, main.title="W-NOMINATE Coordinates",
 plot.scree <- function(x, main.title="Scree Plot", x.title="Dimension",
                         y.title="Eigenvalue",...) {
 
-    if(!class(x)=="nomObject")
+    if(!is(x, "nomObject"))
         stop("Input is not of class 'nomObject'.")
     if(is.null(x$eigenvalues))
     stop("No eigenvalues exist in this W-NOMINATE object.")
@@ -233,7 +233,7 @@ plot.scree <- function(x, main.title="Scree Plot", x.title="Dimension",
 }               
 
 plot.nomObject <- function(x,dims=c(1,2),...) {
-    if(!class(x)=="nomObject")
+    if(!is(x, "nomObject"))
         stop("Input is not of class 'nomObject'.")
     if(length(dims)!=2 & x$dimensions!=1)
         stop("'dims' must be an integer vector of length 2.")
@@ -253,7 +253,7 @@ plot.nomObject <- function(x,dims=c(1,2),...) {
 
 summary.nomObject<-function(object,verbose=FALSE,...){
 
-    if(!class(object)=="nomObject")
+    if(!is(object, "nomObject"))
         stop("Input is not of class 'nomObject'.")
 
     cat("\n\nSUMMARY OF W-NOMINATE OBJECT")
