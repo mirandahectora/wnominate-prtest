@@ -8,7 +8,7 @@
 
 \usage{
 \method{plot}{scree}(x, main.title="Scree Plot", x.title="Dimension",
-        y.title="Eigenvalue",\ldots)
+        y.title="Eigenvalue", \dots)
 }
 
 \arguments{

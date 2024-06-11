@@ -37,8 +37,6 @@
 
 	* Extra graphic files deleted from inst/doc
 
-
-
 0.99	*Vignette directory changed for R 3.1
 	*.First.lib use deprecated and removed
 	*test function folder removed
@@ -50,7 +48,10 @@
 
 1.3     * Registered native routines
 	* Modified http:// urls to https://
-	* Updated broken urls in vignette and documentation 
+	* Updated broken urls in vignette and documentation
 	* Modified plot methods to resolve "matched by multiple actual arguments errors" arising from ...
 
-1.4     * Add explicit declaration of function random() in random_wrap.c
+1.4     * Added explicit declaration of function random() in random_wrap.c
+
+1.5     * Modified fortran code to be Fortran 2018 compliant
+	* Cleaned up formatting of documentation

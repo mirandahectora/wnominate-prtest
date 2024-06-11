@@ -1,5 +1,4 @@
 %\VignetteIndexEntry{An R Package for W-NOMINATE}
-%\VignetteDepends{pscl}
 %\VignetteKeywords{multivariate}
 %\VignettePackage{wnominate}
 
@@ -9,6 +8,7 @@
 \usepackage{amscd}
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 \title{Using W-NOMINATE in R}
 \author{James Lo}
@@ -168,7 +168,7 @@ an example, we can download the file \emph{sen90kh.ord} and read
 the data in R as follows:\\
 
 <<one>>=
-library(wnominate)
+suppressMessages(library(wnominate))
 #sen90 <- readKH("ftp://voteview.com/sen90kh.ord")
 data(sen90)     #Does same thing as above
 sen90

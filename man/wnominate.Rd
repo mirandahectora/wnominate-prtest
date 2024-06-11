@@ -51,49 +51,48 @@ wnominate(rcObject, ubeta=15, uweights=0.5, dims=2, minvotes=20,
         legislators. For a typical W-NOMINATE object run with an ORD file read using
         \code{readKH}, it will contain the following:
     \itemize{
-    \item{\code{state}}{State name of legislator.}
-    \item{\code{icpsrState}}{ICPSR state code of legislator.}
-    \item{\code{cd}}{Congressional District number.}
-    \item{\code{icpsrLegis}}{ICPSR code of legislator.}
-    \item{\code{party}}{Party of legislator.}
-    \item{\code{partyCode}}{ICPSR party code of legislator.}
-    \item{\code{correctYea}}{Predicted Yeas and Actual Yeas.}
-    \item{\code{wrongYea}}{Predicted Yeas and Actual Nays.}
-    \item{\code{wrongNay}}{Predicted Nays and Actual Yeas.}
-    \item{\code{correctNay}}{Predicted Nays and Actual Nays.}
-    \item{\code{GMP}}{Geometric Mean Probability.}
-    \item{\code{CC}}{Correct Classification.}
-    \item{\code{coord1D}}{First dimension W-NOMINATE score, with all subsequent dimensions
-                    numbered similarly.}
-    \item{\code{se1D}}{Bootstrapped standard error of first dimension W-NOMINATE score,
+    \item \code{state} State name of legislator.
+    \item \code{icpsrState} ICPSR state code of legislator.
+    \item \code{cd} Congressional District number.
+    \item \code{icpsrLegis} ICPSR code of legislator.
+    \item \code{party} Party of legislator.
+    \item \code{partyCode} ICPSR party code of legislator.
+    \item \code{correctYea} Predicted Yeas and Actual Yeas.
+    \item \code{wrongYea} Predicted Yeas and Actual Nays.
+    \item \code{wrongNay} Predicted Nays and Actual Yeas.
+    \item \code{correctNay} Predicted Nays and Actual Nays.
+    \item \code{GMP} Geometric Mean Probability.
+    \item \code{CC} Correct Classification.
+    \item \code{coord1D} First dimension W-NOMINATE score, with all subsequent dimensions
+                    numbered similarly.
+    \item \code{se1D} Bootstrapped standard error of first dimension W-NOMINATE score,
                     with all subsequent dimensions numbered similarly.  This will be 
-                    empty if trials is set below 4.}
-    \item{\code{corr.1}}{Covariance between first and second dimension W-NOMINATE score,
-                    with all subsequent dimensions numbered similarly.}
+                    empty if trials is set below 4.
+    \item \code{corr.1} Covariance between first and second dimension W-NOMINATE score,
+                    with all subsequent dimensions numbered similarly.
     }
   }
-
   \item{rollcalls}{ data frame, containing all data from the old \code{nom33.dat} file about
                     bills. For a typical W-NOMINATE object run with an ORD file read
                     using \code{readKH}, it will contain the following:
     \itemize{
-    \item{\code{correctYea}}{Predicted Yeas and Actual Yeas.}
-    \item{\code{wrongYea}}{Predicted Yeas and Actual Nays.}
-    \item{\code{wrongNay}}{Predicted Nays and Actual Yeas.}
-    \item{\code{correctNay}}{Predicted Nays and Actual Nays.}
-    \item{\code{GMP}}{Geometric Mean Probability.}
-    \item{\code{PRE}}{Proportional Reduction In Error.}
-    \item{\code{spread1D}}{First dimension W-NOMINATE spread, with all subsequent dimensions
-                    numbered similarly.}
-    \item{\code{midpoint1D}}{First dimension W-NOMINATE midpoint, with all subsequent dimensions
-                    numbered similarly.}
+    \item \code{correctYea} Predicted Yeas and Actual Yeas.
+    \item \code{wrongYea} Predicted Yeas and Actual Nays.
+    \item \code{wrongNay} Predicted Nays and Actual Yeas.
+    \item \code{correctNay} Predicted Nays and Actual Nays.
+    \item \code{GMP} Geometric Mean Probability.
+    \item \code{PRE} Proportional Reduction In Error.
+    \item \code{spread1D} First dimension W-NOMINATE spread, with all subsequent dimensions
+                    numbered similarly.
+    \item \code{midpoint1D} First dimension W-NOMINATE midpoint, with all subsequent dimensions
+                    numbered similarly.
     }                 
   }
-  \item{dimensions}{ integer, number of dimensions estimated. }
-  \item{eigenvalues}{ A vector of roll call eigenvalues. }
-  \item{beta}{ The beta value used in the final iteration. }
-  \item{weights}{ A vector of weights used in each iteration. }
-  \item{fits}{ A vector of length 3*dimensions with the classic measures of fit.
+  \item{dimensions}{integer, number of dimensions estimated.} 
+  \item{eigenvalues}{ A vector of roll call eigenvalues.}
+  \item{beta}{The beta value used in the final iteration.}
+  \item{weights}{A vector of weights used in each iteration.} 
+  \item{fits}{A vector of length 3*dimensions with the classic measures of fit.
                 In order, it contains the correct classifications for each dimension,
                 the APREs for each dimension, and the overall GMPs for each dimension.} 
 }

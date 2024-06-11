@@ -23,12 +23,12 @@ data(sen90)
         legislators. For a typical W-NOMINATE object run with an ORD file read using
         \code{readKH}, it will contain the following:
     \itemize{
-    \item{\code{state}}{ State name of legislator.}
-    \item{\code{icpsrState}}{ ICPSR state code of legislator.}
-    \item{\code{cd}}{ Congressional District number.}
-    \item{\code{icpsrLegis}}{ ICPSR code of legislator.}
-    \item{\code{party}}{ Party of legislator.}
-    \item{\code{partyCode}}{ ICPSR party code of legislator.}
+    \item \code{state} State name of legislator.
+    \item \code{icpsrState} ICPSR state code of legislator.
+    \item \code{cd} Congressional District number.
+    \item \code{icpsrLegis} ICPSR code of legislator.
+    \item \code{party} Party of legislator.
+    \item \code{partyCode} ICPSR party code of legislator.
     }
     }
 
@@ -39,12 +39,12 @@ data(sen90)
   \item{m}{ numeric, number of roll calls }
   \item{legis.data}{ data frame, containing the following information on legislators:
     \itemize{
-    \item{\code{state}}{ State name of legislator.}
-    \item{\code{icpsrState}}{ ICPSR state code of legislator.}
-    \item{\code{cd}}{ Congressional District number.}
-    \item{\code{icpsrLegis}}{ ICPSR code of legislator.}
-    \item{\code{party}}{ Party of legislator.}
-    \item{\code{partyCode}}{ ICPSR party code of legislator.}
+    \item \code{state} State name of legislator. s
+    \item \code{icpsrState} ICPSR state code of legislator.
+    \item \code{cd} Congressional District number.
+    \item \code{icpsrLegis} ICPSR code of legislator.
+    \item \code{party} Party of legislator.
+    \item \code{partyCode} ICPSR party code of legislator.
    }
    }
   \item{vote.data}{ null, would otherwise be a data frame containing data on the votes. }

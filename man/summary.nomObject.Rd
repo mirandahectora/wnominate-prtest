@@ -6,7 +6,7 @@
 }
 
 \usage{
-\method{summary}{nomObject}(object,verbose=FALSE,\ldots)              
+\method{summary}{nomObject}(object,verbose=FALSE, \dots)              
 }
 
 \arguments{

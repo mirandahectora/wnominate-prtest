@@ -1,6 +1,6 @@
 Package: wnominate
-Version: 1.4
-Date: 2023-04-21
+Version: 1.5
+Date: 2024-06-06
 Title: Roll Call Analysis Software
 Author: Keith Poole <ktpoole@uga.edu>, Jeffrey Lewis
         <jblewis@ucla.edu>, James Lo <lojames@usc.edu> and Royce
@@ -13,5 +13,5 @@ Description: Estimates Poole and Rosenthal's (1985 <doi:10.2307/2111172>, 1991 <
 License: GPL-2
 Repository: CRAN
 NeedsCompilation: yes
-Packaged: 2023-04-25 15:01:11 UTC; jeff
-Date/Publication: 2023-04-26 06:40:02 UTC
+Packaged: 2024-06-10 22:54:45 UTC; root
+Date/Publication: 2024-06-11 03:50:02 UTC

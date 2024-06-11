@@ -24,42 +24,37 @@ data(sen90wnom)
         legislators. For a typical W-NOMINATE object run with an ORD file read using
         \code{readKH}, it will contain the following:
     \itemize{
-    \item{\code{state}}{State name of legislator.}
-    \item{\code{icpsrState}}{ICPSR state code of legislator.}
-    \item{\code{cd}}{Congressional District number.}
-    \item{\code{icpsrLegis}}{ICPSR code of legislator.}
-    \item{\code{party}}{Party of legislator.}
-    \item{\code{partyCode}}{ICPSR party code of legislator.}
-    \item{\code{correctYea}}{Predicted Yeas and Actual Yeas.}
-    \item{\code{wrongYea}}{Predicted Yeas and Actual Nays.}
-    \item{\code{wrongNay}}{Predicted Nays and Actual Yeas.}
-    \item{\code{correctNay}}{Predicted Nays and Actual Nays.}
-    \item{\code{GMP}}{Geometric Mean Probability.}
-    \item{\code{PRE}}{Proportional Reduction In Error.}
-    \item{\code{coord1D}}{First dimension W-NOMINATE score, with all subsequent dimensions
-                    numbered similarly.}
-    \item{\code{se1D}}{Bootstrapped standard error of first dimension W-NOMINATE score,
-                    with all subsequent dimensions numbered similarly.  This will be 
-                    empty if trials is set below 4.}
-    \item{\code{corr.1}}{Covariance between first and second dimension W-NOMINATE score,
-                    with all subsequent dimensions numbered similarly.}
-    }
+    \item \code{state} State name of legislator.
+    \item \code{icpsrState} ICPSR state code of legislator.
+    \item \code{cd} Congressional District number.
+    \item \code{icpsrLegis} ICPSR code of legislator.
+    \item \code{party} Party of legislator. 
+    \item \code{partyCode} ICPSR party code of legislator.
+    \item \code{correctYea} Predicted Yeas and Actual Yeas.
+    \item \code{wrongYea} Predicted Yeas and Actual Nays.
+    \item \code{wrongNay} Predicted Nays and Actual Yeas.
+    \item \code{correctNay} Predicted Nays and Actual Nays.
+    \item \code{GMP} Geometric Mean Probability.
+    \item \code{PRE} Proportional Reduction In Error.
+    \item \code{coord1D} First dimension W-NOMINATE score, with all subsequent dimensions numbered similarly.
+    \item \code{se1D} Bootstrapped standard error of first dimension W-NOMINATE score, with all subsequent dimensions numbered similarly.  This will be empty if trials is set below 4. 
+    \item \code{corr.1} Covariance between first and second dimension W-NOMINATE score, with all subsequent dimensions numbered similarly.}
   }
 
   \item{rollcalls}{ data frame, containing all data from the old \code{nom33.dat} file about
                     bills. For a typical W-NOMINATE object run with an ORD file read
                     using \code{readKH}, it will contain the following:
     \itemize{
-    \item{\code{correctYea}}{Predicted Yeas and Actual Yeas.}
-    \item{\code{wrongYea}}{Predicted Yeas and Actual Nays.}
-    \item{\code{wrongNay}}{Predicted Nays and Actual Yeas.}
-    \item{\code{correctNay}}{Predicted Nays and Actual Nays.}
-    \item{\code{GMP}}{Geometric Mean Probability.}
-    \item{\code{PRE}}{Proportional Reduction In Error.}
-    \item{\code{spread1D}}{First dimension W-NOMINATE spread, with all subsequent dimensions
-                    numbered similarly.}
-    \item{\code{midpoint1D}}{First dimension W-NOMINATE midpoint, with all subsequent dimensions
-                    numbered similarly.}
+    \item \code{correctYea} Predicted Yeas and Actual Yeas.
+    \item \code{wrongYea} Predicted Yeas and Actual Nays.
+    \item \code{wrongNay} Predicted Nays and Actual Yeas.
+    \item \code{correctNay} Predicted Nays and Actual Nays.
+    \item \code{GMP} Geometric Mean Probability.
+    \item \code{PRE} Proportional Reduction In Error.
+    \item \code{spread1D} First dimension W-NOMINATE spread, with all subsequent dimensions
+                    numbered similarly.
+    \item \code{midpoint1D} First dimension W-NOMINATE midpoint, with all subsequent dimensions
+                    numbered similarly.
    } }                     
 
   \item{dimensions}{ integer, number of dimensions estimated. }

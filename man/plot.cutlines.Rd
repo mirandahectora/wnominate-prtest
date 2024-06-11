@@ -13,7 +13,7 @@
 \usage{         
 \method{plot}{cutlines}(x, main.title="Cutting Lines",
         d1.title="First Dimension", d2.title="Second Dimension",
-        lines=50,dims=c(1,2),lwd=2,\ldots)
+        lines=50,dims=c(1,2),lwd=2, \dots)
 }
 
 \arguments{

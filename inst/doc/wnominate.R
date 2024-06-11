@@ -3,7 +3,7 @@
 ###################################################
 ### code chunk number 1: one
 ###################################################
-library(wnominate)
+suppressMessages(library(wnominate))
 #sen90 <- readKH("ftp://voteview.com/sen90kh.ord")
 data(sen90)     #Does same thing as above
 sen90

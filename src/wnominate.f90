@@ -237,19 +237,21 @@
 !  ***************************
 !
 !
-      DO 77 K=1,NS
-      DO 77 I=1,NP
+      DO 772 K=1,NS
+      DO 771 I=1,NP
       XMEANX(I,K)=0.0
       STDDEV(I,K)=0.0
       XMEANX(I+NP,K)=0.0
       STDDEV(I+NP,K)=0.0
       STDDEV(I+2*NP,K)=0.0
-      DO 77 L=1,NS
+      DO 770 L=1,NS
       COVX(I,K,L)=0.0
       COVX(I+NP,K,L)=0.0
       COVX2(I,K,L)=0.0
       COVX2(I+NP,K,L)=0.0
-  77  CONTINUE
+  770  CONTINUE
+  771  CONTINUE
+  772  CONTINUE
 !
       DO 9988 I999=1,NTRIAL
 !
@@ -268,17 +270,20 @@
 !
       BBB(1)=UBETA
       BBB(2)=UWEIGHTS(1)
-      DO 69 K=1,2
-      DO 69 I=1,NP
+      DO 693 K=1,2
+      DO 692 I=1,NP
       ISENS(I)=1
-      DO 69 J=1,NRCALL
+      DO 691 J=1,NRCALL
       DO 68 L=1,NS
       BBBB(L)=BBB(2)
       ZMID(J,L)=0.0
       DYN(J,L)=0.0
   68  CONTINUE
       LERIC(J)=1
- 69   PSI(I,J,K) = 1.0
+      PSI(I,J,K) = 1.0
+  691 CONTINUE
+  692 CONTINUE
+  693 CONTINUE
 !
 !
 !  CALCULATE AGREEMENT SCORE MATRIX, DOUBLE-CENTER IT, AND
@@ -309,12 +314,15 @@
       BB=-99.0
       DO 70 I=1,NP
       IF(NS.EQ.1)XDATA(I,1)=XXX(I)
-  70  SUM=SUM+XDATA(I,K)
+      SUM=SUM+XDATA(I,K)
+  70  CONTINUE
       DO 72 I=1,NP
       XDATA(I,K)=XDATA(I,K)-SUM/FLOAT(NP)
-  72  BB=AMAX1(BB,XDATA(I,K))
+      BB=AMAX1(BB,XDATA(I,K))
+  72  CONTINUE 
       DO 73 I=1,NP
-  73  XDATA(I,K)=XDATA(I,K)/BB 
+      XDATA(I,K)=XDATA(I,K)/BB 
+  73  CONTINUE
   71  CONTINUE
 !
 !  NORMALIZE ESTIMATES OF LEGISLATORS TO BE WITHIN THE
@@ -323,7 +331,8 @@
       DO 51 K=1,NS
       SUM=0.0
       DO 50 I=1,NP
-  50  SUM=SUM+XDATA(I,K)
+      SUM=SUM+XDATA(I,K)
+  50  CONTINUE
       DO 52 I=1,NP
       XDATA(I,K)=XDATA(I,K)-SUM/FLOAT(NP)
   52  CONTINUE
@@ -416,7 +425,8 @@
            ALPHA=ALPHA/XDATA(KSMAX,NDIM)
 !          ALPHA=ASUM/BSUM
           DO 22 I=1,NP
-  22      XDATA(I,NDIM)=XDATA(I,NDIM)*ALPHA
+          XDATA(I,NDIM)=XDATA(I,NDIM)*ALPHA
+  22      CONTINUE
       ENDIF
       SSS(1)=XDATA(KSMIN,NDIM)
       SSS(2)=XDATA(KSMAX,NDIM)
@@ -598,13 +608,15 @@
      &                 ZMID,XDATA,DYN,LDATA,PSI,BBB,BBBB)
 !      CALL CROSS(JJ,LL)
       JJ=1
-      DO 4 I=1,2
-      DO 4 J=1,2
+      DO 42 I=1,2
+      DO 41 J=1,2
       KPJP(II,JJ)=LL(I,J)
       IF(I999.EQ.1)THEN
          CLASSIFY((II-1)*4 + JJ)=LL(I,J)
       ENDIF
-  4   JJ=JJ+1
+      JJ=JJ+1
+  41  CONTINUE
+  42  CONTINUE
   3   CONTINUE
 !
 !  WRITE OUT FINAL ESTIMATE OF LEGISLATORS WITH CROSS CLASSIFICATIONS
@@ -648,13 +660,15 @@
      &                 ZMID,XDATA,DYN,LDATA,PSI,BBB,BBBB)
 !      CALL CROSS(JJ,LL)
       JJ=1
-      DO 6 I=1,2
-      DO 6 J=1,2
+      DO 65 I=1,2
+      DO 64 J=1,2
       KPJP(II,JJ)=LL(I,J)
       IF(I999.EQ.1)THEN
          CLASSIFY(NP*4 + (II-1)*4 + JJ)=LL(I,J)
       ENDIF
-  6   JJ=JJ+1
+      JJ=JJ+1
+  64  CONTINUE
+  65  CONTINUE
   5   CONTINUE
 !
 !  WRITE OUT FINAL ESTIMATES OF ROLL CALLS WITH CROSS CLASSIFICATIONS
@@ -673,9 +687,9 @@
 !    UPDATE THE PSI MATRICES FOLLOWING THE ESTIMATION OF COORDINATES
 !       OF DIMENSION NDIM
 !
-      DO 1492 I=1,NP
+      DO 14922 I=1,NP
       ISENS(I)=1
-      DO 1492 J=1,NRCALL
+      DO 14921 J=1,NRCALL
       DY=0.0
       DN=0.0
 !      DYY=-(BBB(2)*(XDATA(I,NDIM)-ZMID(J,NDIM)+DYN(J,NDIM)))**2
@@ -695,7 +709,8 @@
 !      ENDIF
       PSI(I,J,1)=DY
       PSI(I,J,2)=DN
- 1492 CONTINUE
+ 14921 CONTINUE
+ 14922 CONTINUE
       BBB(2)=.5
  2222 CONTINUE
 !
@@ -734,11 +749,11 @@
          FITS(I)=XFITS(I)
   787    CONTINUE
 !
-           DO 109 J=1,NRCALL
-           DO 109 I=1,NP
+           DO 1092 J=1,NRCALL
+           DO 1091 I=1,NP
            ICH=LDATA(I,J)
            POOLE(I,J)=-1.0
-           IF(ICH.LE.0)GO TO 109
+           IF(ICH.LE.0)GO TO 1091
 !
            SUMY=0.0
            SUMN=0.0
@@ -770,12 +785,15 @@
 !              POOLE(I,J+NRCALL)=PART2
 !              POOLE(I,J+2*NRCALL)=PART1
            ENDIF
-  109      CONTINUE
-           DO 659 I=1,NP
-           DO 659 J=1,NRCALL
+  1091    CONTINUE 
+  1092    CONTINUE    
+                  
+           DO 6592 I=1,NP
+           DO 6591 J=1,NRCALL
 !           WRITE(66,660)I,J,
 !     C               POOLE(I,J),POOLE(I,J+NRCALL),POOLE(I,J+2*NRCALL)
-  659      CONTINUE
+  6591      CONTINUE
+  6592      CONTINUE
 !
 !           DO 1427 I=1,NP
 !           DO 1428 J=1,NRCALL
@@ -813,10 +831,10 @@
               CALL PROCEVENT()
            ENDIF
 !
-           DO 108 J=1,NRCALL
-           DO 108 I=1,NP
+           DO 1082 J=1,NRCALL
+           DO 1081 I=1,NP
            ICH=LDATA(I,J)
-           IF(ICH.LE.0)GO TO 108
+           IF(ICH.LE.0)GO TO 1081
 !
 !           COINFLIP=RNUNF()
            COINFLIP=RANDOM()
@@ -829,27 +847,31 @@
               LDATA(I,J)=2
               LDATA2(I,J)=6
            ENDIF
-  108      CONTINUE           
-           DO 107 I=1,NP
-           DO 107 K=1,NS
+  1081     CONTINUE
+  1082     CONTINUE           
+           DO 1072 I=1,NP
+           DO 1071 K=1,NS
            XTARGET(I,K)=XDATA(I,K)
-  107      CONTINUE
+  1071     CONTINUE
+  1072     CONTINUE
            CALL ROTATE(NP,NS,XTARGET,TRUEX,IPRINT)
-           DO 654 I=1,NP
-           DO 654 K=1,NS
+           DO 6549 I=1,NP
+           DO 6548 K=1,NS
            STDDEV(I,K)=STDDEV(I,K)+(TRUEX(I,K)-XTARGET(I,K))**2
            XMEANX(I,K)=XMEANX(I,K)+XTARGET(I,K)
            DO 6541 L=1,NS
            COVX(I,K,L)=COVX(I,K,L)+XTARGET(I,K)*XTARGET(I,L)
  6541      CONTINUE
-  654      CONTINUE
-           DO 1070 I=1,NP
-           DO 1070 K=1,NS
+ 6548      CONTINUE
+ 6549      CONTINUE
+           DO 10702 I=1,NP
+           DO 10701 K=1,NS
            XTARGET(I,K)=XMAT0(I,K)
- 1070      CONTINUE
+ 10701      CONTINUE
+ 10702      CONTINUE
            CALL ROTATE(NP,NS,XTARGET,TRUEX2,IPRINT)
-           DO 6540 I=1,NP
-           DO 6540 K=1,NS
+           DO 65402 I=1,NP
+           DO 65401 K=1,NS
            STDDEV(I+NP,K)=STDDEV(I+NP,K)+                               &
      &                          (TRUEX2(I,K)-XTARGET(I,K))**2
            STDDEV(I+2*NP,K)=STDDEV(I+2*NP,K)+                           &
@@ -858,7 +880,8 @@
            DO 6542 L=1,NS
            COVX(I+NP,K,L)=COVX(I+NP,K,L)+XTARGET(I,K)*XTARGET(I,L)
  6542      CONTINUE
- 6540      CONTINUE
+ 65401     CONTINUE
+ 65402     CONTINUE
       ENDIF
 !
 !
@@ -1003,13 +1026,15 @@
  6568 CONTINUE
  6567 CONTINUE
 !
-      DO 656 K=1,NS
-      DO 656 I=1,NP
+      DO 6562 K=1,NS
+      DO 6561 I=1,NP
       STDDEV(I,K)=SQRT(STDDEV(I,K)/FLOAT(NTRIAL-2))
       XMEANX(I,K)=XMEANX(I,K)/FLOAT(NTRIAL-1)
       STDDEV(I+NP,K)=SQRT(STDDEV(I+NP,K)/FLOAT(NTRIAL-2))
       XMEANX(I+NP,K)=XMEANX(I+NP,K)/FLOAT(NTRIAL-1)
-  656 CONTINUE
+  6561 CONTINUE
+  6562 CONTINUE
+  
       DO 657 I=1,NP
 !      IF(IPRINT.EQ.1)WRITE(26,150)I,                                    &
 !     &                (TRUEX(I,K),K=1,NS),                              &
@@ -1057,7 +1082,7 @@
      &                 LDATA2,KAV,KAY,KAN)
       DIMENSION KMARG(50),KAV(NRCALL),KAY(NRCALL),                      &
      &          KAN(NRCALL),LDATA(NP,NRCALL),LDATA2(NP,NRCALL)
-      CHARACTER*10 LMARG(10)
+      CHARACTER(len=10) LMARG(10)
       INTEGER, ALLOCATABLE :: KKSUM(:)
       INTEGER, ALLOCATABLE :: LLSUM(:)
       INTEGER, ALLOCATABLE :: MMSUM(:)
@@ -1100,9 +1125,11 @@
       IF(KD(J).EQ.1.OR.KD(J).EQ.2.OR.KD(J).EQ.3)KKSUM(J)=KKSUM(J)+1
       IF(KD(J).EQ.1.OR.KD(J).EQ.2.OR.KD(J).EQ.3)ISUM=ISUM+1
       IF(KD(J).EQ.4.OR.KD(J).EQ.5.OR.KD(J).EQ.6)LLSUM(J)=LLSUM(J)+1
-  2   IF(KD(J).EQ.4.OR.KD(J).EQ.5.OR.KD(J).EQ.6)JSUM=JSUM+1
+      IF(KD(J).EQ.4.OR.KD(J).EQ.5.OR.KD(J).EQ.6)JSUM=JSUM+1
+  2   CONTINUE
       MMSUM(I)=ISUM
-  1   NNSUM(I)=JSUM
+      NNSUM(I)=JSUM
+  1   CONTINUE
       DO 3 I=1,NP
       LL=MMSUM(I)+NNSUM(I)
       IF(LL.GT.KVMIN)NOB=NOB+1
@@ -1380,7 +1407,8 @@
       IF(JJ.EQ.NPJ)GO TO 918
       KK=KK+1
       DO 919 K=1,NS
-  919 XXXX(KK,K)=XX(JJ,K)
+      XXXX(KK,K)=XX(JJ,K)
+  919 CONTINUE 
       SAVEZ(KK)=ZZZ(JJ)
       SAVED(KK)=DSTAR(NPJ,JJ)
   918 CONTINUE
@@ -1397,9 +1425,11 @@
  9998 CONTINUE
       SUM=0.0
       DO 1 I=1,NP
-  1   SUM=SUM+ZZZ(I)
+      SUM=SUM+ZZZ(I)
+  1   CONTINUE
       DO 2 I=1,NP
-  2   ZZZ(I)=ZZZ(I)-(SUM/FLOAT(NP))
+      ZZZ(I)=ZZZ(I)-(SUM/FLOAT(NP))
+  2   CONTINUE
       DEALLOCATE (SAVEZ)
       DEALLOCATE (SAVED)
       DEALLOCATE (XXXX)
@@ -1424,7 +1454,8 @@
 !
       DO 303 I=1,NP
       LL(I)=I
-  303 Q(I)=X(I)
+      Q(I)=X(I)
+  303 CONTINUE
       CALL RSORT(Q,NP,LL)
       ASUM=0.0
       BSUM=0.0
@@ -1488,7 +1519,8 @@
       IF(NS.EQ.1)GO TO 10
       SSUMS=0.0
       DO 11 K=1,NS
-  11  SSUMS=SSUMS+(XX(I,K)-XX(J,K))**2
+      SSUMS=SSUMS+(XX(I,K)-XX(J,K))**2
+  11  CONTINUE
       SSUMS=SQRT(SSUMS)
       AA=SSUMS
 !      WRITE(24,125)KK,AA,DSTAR(I,J)
@@ -1526,7 +1558,8 @@
       KK=KK+1
       SUM=0.0
       DO 7 K=1,NS
-  7   SUM=SUM+(XXXX(J,K)-XX(II,K))**2
+      SUM=SUM+(XXXX(J,K)-XX(II,K))**2
+  7   CONTINUE
       IF(SUM.EQ.0.0E0) THEN 
       XC=1.0
       ELSE
@@ -1534,13 +1567,15 @@
       ENDIF
   52  CONTINUE
       DO 8 K=1,NS
-  8   ZZZ(K)=ZZZ(K)+XXXX(J,K)+XC*(XX(II,K)-XXXX(J,K))
+      ZZZ(K)=ZZZ(K)+XXXX(J,K)+XC*(XX(II,K)-XXXX(J,K))
+  8   CONTINUE
   4   CONTINUE
 !      IF(KK.EQ.0)WRITE(23,310)II
 !      IF(KK.EQ.0)STOP
 !  310 FORMAT(' THIS IS YOUR PROBLEM STUPID!!!',I6)
       DO 1 K=1,NS
-  1   XX(II,K)=ZZZ(K)/FLOAT(KK)
+      XX(II,K)=ZZZ(K)/FLOAT(KK)
+  1   CONTINUE
       RETURN
       END
 !
@@ -1575,11 +1610,13 @@
       XXXX=XDATA(KLSEN2,2)
       IF(XXX.GT..0)GO TO 40
       DO 41 I=1,NP
-  41  XDATA(I,1)=-XDATA(I,1)
+      XDATA(I,1)=-XDATA(I,1)
+  41  CONTINUE
   40  CONTINUE
       IF(XXXX.GT..0)GO TO 42
       DO 43 I=1,NP
-  43  XDATA(I,2)=-XDATA(I,2)
+      XDATA(I,2)=-XDATA(I,2)
+  43  CONTINUE
   42  CONTINUE
       DO 1 I=1,NP
       AA=AMIN1(AA,XDATA(I,1))
@@ -1600,7 +1637,8 @@
       LL(I)=I
       XDATA(I,1)=(XDATA(I,1)-AA)/BB
       XSAVE(I,1,1)=XDATA(I,1)
-  10  X(I)=XDATA(I,1)
+      X(I)=XDATA(I,1)
+  10  CONTINUE
       CALL RSORT(X,NP,LL)
 !
 !  STORE 4 MOST EXTREME LEGISLATORS IN SSS(.)
@@ -1621,7 +1659,8 @@
       DO 4 I=1,NP
       KV(I)=LDATA2(LL(I),J)
       IF(LDATA2(I,J).EQ.1)SUMY=SUMY+XDATA(I,1)
-  4   IF(LDATA2(I,J).EQ.6)SUMN=SUMN+XDATA(I,1)
+      IF(LDATA2(I,J).EQ.6)SUMN=SUMN+XDATA(I,1)
+  4   CONTINUE
       SUMY=SUMY/FLOAT(KAY(J))
       SUMN=SUMN/FLOAT(KAN(J))
       SUMM=(SUMN+SUMY)/2.0
@@ -1635,7 +1674,8 @@
      &            KFLIP,ZSAB,YPRE,SUMY,SUMN,SUMM,IPRINT)
       DO 7 I=1,NP
       IF(LDATA(I,J).NE.0)KPTSUM=KPTSUM+1
-  7   IF(LDATA(I,J).EQ.6)LDATA(I,J)=2
+      IF(LDATA(I,J).EQ.6)LDATA(I,J)=2
+  7   CONTINUE
       ZMID(J,1)=ZSAB
       DT=0.0
       IF(ZSAB.GT.0.0)DT=(ZSAB+1.0)/2.0
@@ -2074,7 +2114,8 @@
          IF (L .LT. 1) GO TO 130
 !     .......... SCALE ROW (ALGOL TOL THEN NOT NEEDED) ..........
          DO 120 K = 1, L
-  120    SCALE = SCALE + ABS(D(K))
+         SCALE = SCALE + ABS(D(K))
+  120    CONTINUE
 !
          IF (SCALE .NE. 0.0E0) GO TO 140
 !
@@ -2102,7 +2143,8 @@
          IF (L .EQ. 1) GO TO 285
 !     .......... FORM A*U ..........
          DO 170 J = 1, L
-  170    E(J) = 0.0E0
+         E(J) = 0.0E0
+  170    CONTINUE
 !
          DO 240 J = 1, L
             F = D(J)
@@ -2128,14 +2170,16 @@
          H = F / (H + H)
 !     .......... FORM Q ..........
          DO 250 J = 1, L
-  250    E(J) = E(J) - H * D(J)
+         E(J) = E(J) - H * D(J)
+  250    CONTINUE
 !     .......... FORM REDUCED A ..........
          DO 280 J = 1, L
             F = D(J)
             G = E(J)
 !
             DO 260 K = J, L
-  260       A(K,J) = A(K,J) - F * E(K) - G * D(K)
+            A(K,J) = A(K,J) - F * E(K) - G * D(K)
+ 260        CONTINUE
 !
   280    CONTINUE
 !
@@ -2197,7 +2241,8 @@
       DO 100 I = 1, N
 !
          DO 80 J = I, N
-   80    Z(J,I) = A(J,I)
+         Z(J,I) = A(J,I)
+   80    CONTINUE
 !
          D(I) = A(N,I)
   100 CONTINUE
@@ -2212,7 +2257,8 @@
          IF (L .LT. 2) GO TO 130
 !     .......... SCALE ROW (ALGOL TOL THEN NOT NEEDED) ..........
          DO 120 K = 1, L
-  120    SCALE = SCALE + ABS(D(K))
+         SCALE = SCALE + ABS(D(K))
+  120    CONTINUE
 !
          IF (SCALE .NE. 0.0E0) GO TO 140
   130    E(I) = D(L)
@@ -2237,7 +2283,8 @@
          D(L) = F - G
 !     .......... FORM A*U ..........
          DO 170 J = 1, L
-  170    E(J) = 0.0E0
+         E(J) = 0.0E0
+  170    CONTINUE
 !
          DO 240 J = 1, L
             F = D(J)
@@ -2264,14 +2311,16 @@
          HH = F / (H + H)
 !     .......... FORM Q ..........
          DO 250 J = 1, L
-  250    E(J) = E(J) - HH * D(J)
+         E(J) = E(J) - HH * D(J)
+  250    CONTINUE
 !     .......... FORM REDUCED A ..........
          DO 280 J = 1, L
             F = D(J)
             G = E(J)
 !
             DO 260 K = J, L
-  260       Z(K,J) = Z(K,J) - F * E(K) - G * D(K)
+            Z(K,J) = Z(K,J) - F * E(K) - G * D(K)
+  260       CONTINUE
 !
             D(J) = Z(L,J)
             Z(I,J) = 0.0E0
@@ -2288,20 +2337,25 @@
          IF (H .EQ. 0.0E0) GO TO 380
 !
          DO 330 K = 1, L
-  330    D(K) = Z(K,I) / H
+         D(K) = Z(K,I) / H
+  330    CONTINUE
 !
-         DO 360 J = 1, L
+         DO 3602 J = 1, L
             G = 0.0E0
 !
             DO 340 K = 1, L
-  340       G = G + Z(K,I) * Z(K,J)
+            G = G + Z(K,I) * Z(K,J)
+  340       CONTINUE
 !
-            DO 360 K = 1, L
+            DO 3601 K = 1, L
                Z(K,J) = Z(K,J) - G * D(K)
-  360    CONTINUE
-!
+  3601      CONTINUE
+  3602      CONTINUE
+  !
+  !
   380    DO 400 K = 1, L
-  400    Z(K,I) = 0.0E0
+         Z(K,I) = 0.0E0
+  400    CONTINUE
 !
   500 CONTINUE
 !
@@ -2380,7 +2434,8 @@
       IF (N .EQ. 1) GO TO 1001
 !
       DO 100 I = 2, N
-  100 E(I-1) = E(I)
+      E(I-1) = E(I)
+  100 CONTINUE
 !
       F = 0.0E0
       TST1 = 0.0E0
@@ -2414,7 +2469,8 @@
          IF (L2 .GT. N) GO TO 145
 !
          DO 140 I = L2, N
-  140    D(I) = D(I) - H
+         D(I) = D(I) - H
+  140    CONTINUE
 !
   145    F = F + H
 !     .......... QL TRANSFORMATION ..........
@@ -2532,7 +2588,8 @@
       IF (N .EQ. 1) GO TO 1001
 !
       DO 100 I = 2, N
-  100 E2(I-1) = E2(I)
+      E2(I-1) = E2(I)
+  100 CONTINUE
 !
       F = 0.0E0
       T = 0.0E0
@@ -2565,7 +2622,8 @@
          H = G - D(L)
 !
          DO 140 I = L1, N
-  140    D(I) = D(I) - H
+         D(I) = D(I) - H
+  140    CONTINUE
 !
          F = F + H
 !     .......... RATIONAL QL TRANSFORMATION ..........
@@ -2705,9 +2763,11 @@
 !  ***** ROLL CALL PHASE *****
 !
       IF(NSTEP.EQ.1)THEN
-           DO 22 I=1,2
-           DO 22 J=1,2
-  22       MM(I,J)=0
+           DO 222 I=1,2
+           DO 221 J=1,2
+           MM(I,J)=0
+  221      CONTINUE
+  222      CONTINUE
            NEQ=0
            JKP=0
            KTP=0
@@ -2736,11 +2796,13 @@
      &                 NP,NRCALL,NDIM,NSTEP,JAN,JANLST,                 &
      &                 ZMID,XDATA,DYN,LDATA,PSI,BBB,BBBB)
            JJ=1
-           DO 21 I=1,2
-           DO 21 J=1,2
+           DO 212 I=1,2
+           DO 211 J=1,2
            KPJP(NEQ,JJ)=LL(I,J)
            JJ=JJ+1
-  21       MM(I,J)=MM(I,J)+LL(I,J)
+           MM(I,J)=MM(I,J)+LL(I,J)
+  211      CONTINUE
+  212      CONTINUE
            LERIC(NEQ)=1
 !           IF((LL(1,2)+LL(2,1)).EQ.0)LERIC(NEQ)=0
            LYES=LL(1,1)+LL(2,1)
@@ -2767,9 +2829,11 @@
 !  ***** LEGISLATOR PHASE *****
 !
       IF(NSTEP.EQ.2)THEN
-           DO 26 I=1,2
-           DO 26 J=1,2
-  26       MM(I,J)=0
+           DO 2602 I=1,2
+           DO 2601 J=1,2
+           MM(I,J)=0
+  2601 CONTINUE
+  2602 CONTINUE
            NEQ=0
   10       CONTINUE
            NEQ=NEQ+1
@@ -2789,11 +2853,13 @@
      &                 NP,NRCALL,NDIM,NSTEP,JAN,JANLST,                 &
      &                 ZMID,XDATA,DYN,LDATA,PSI,BBB,BBBB)
            JJ=1
-           DO 27 I=1,2
-           DO 27 J=1,2
+           DO 2702 I=1,2
+           DO 2701 J=1,2
            KPJP(NEQ,JJ)=LL(I,J)
            JJ=JJ+1
   27       MM(I,J)=MM(I,J)+LL(I,J)
+  2701     CONTINUE
+  2702     CONTINUE
            IF(NEQ.LT.NP)GO TO 10
 !           IF(IPRINT.EQ.1)THEN
 !              WRITE(23,24)NP
@@ -2849,7 +2915,8 @@
       DO 50 I=1,NOPAR
       KCONST(I)=1
       DELTAB(I)=0.0
-   50 TESTB(I)=B(I)
+      TESTB(I)=B(I)
+   50 CONTINUE
 !
 !          BERNDT, HALL, HALL, AND HAUSMAN METHOD
 !
@@ -2885,12 +2952,16 @@
 !  CALCULATE MATRIX INVERSE
 !
       CALL KPRS(25,3,V,WVEC,1,ZMAT,FV1,FV2,IER)
-      DO 60 I=1,3
-      DO 60 KX=1,3
+      DO 6002 I=1,3
+      DO 6001 KX=1,3
       SUM=0.0
+
       DO 61 J=1,3
-  61  SUM=SUM+ZMAT(KX,J)*(1.0/WVEC(J))*ZMAT(I,J)
-  60  AV(I,KX)=SUM
+      SUM=SUM+ZMAT(KX,J)*(1.0/WVEC(J))*ZMAT(I,J)
+  61  CONTINUE
+      AV(I,KX)=SUM
+  6001 CONTINUE
+  6002 CONTINUE
       DET=V(1,1)*V(2,2)*V(3,3)-V(1,1)*V(2,3)*V(3,2)+V(1,2)*V(2,3)*V(3,1)
       DET=DET-V(1,2)*V(2,1)*V(3,3)+V(1,3)*V(2,1)*V(3,2)-V(1,3)*V(2,2)*  &
      &V(3,1)
@@ -2899,10 +2970,11 @@
       DELTAB(1)=(AV(1,1)*GRAD(1)+AV(2,1)*GRAD(2)+AV(3,1)*GRAD(3))
       DELTAB(2)=(AV(1,2)*GRAD(1)+AV(2,2)*GRAD(2)+AV(3,2)*GRAD(3))
       DELTAB(3)=(AV(1,3)*GRAD(1)+AV(2,3)*GRAD(2)+AV(3,3)*GRAD(3))
-      DO 77 I=1,3
-      DO 77 J=1,3
+      DO 7702 I=1,3
+      DO 7701 J=1,3
       V(I,J)=AV(J,I)
-77    CONTINUE
+7701  CONTINUE
+7702  CONTINUE
       GO TO 22
 !
 !     WHEN ONE OF THE THREE KCONST'S IS 1.
@@ -2991,7 +3063,8 @@
 !      IF(COSDG.LT.(TOLB**2))GO TO 1200
       IF(IFBETR.EQ.0)GO TO 1500
       DO 710 I=1,NOPAR
-  710 B(I)=TESTB(I)
+      B(I)=TESTB(I)
+  710 CONTINUE
  1000 CONTINUE
       GO TO 1100
 !
@@ -3006,8 +3079,10 @@
  1200 ICNVG=0
       ITT=IT
  1206 CONTINUE
- 1207 DO 705 I=1,NOPAR
-  705 B(I)=TESTB(I)
+ 1207 CONTINUE
+      DO 705 I=1,NOPAR
+      B(I)=TESTB(I)
+  705  CONTINUE 
       XLNL=-FUNNEL(0.0,                                                 &
      &                     NP,NRCALL,NDUAL,NS,NDIM,NSTEP,NEQ,BBB,ISENS, &
      &                  NOPAR,KFDRV,NFEVAL,DELTAB,B,                    &
@@ -3023,7 +3098,8 @@
 !
  1500 ICNVG=2
       DO 650 I=1,NOPAR
-  650 TESTB(I)=B(I)
+      TESTB(I)=B(I)
+  650 CONTINUE
       GO TO 1207
       END
 !
@@ -3130,7 +3206,8 @@
 !           AND XLBA = STEPSIZE
 !
       DO 10 I=1,NOPAR
-  10  TESTB(I)=B(I)+XLBA*DELTAB(I)
+      TESTB(I)=B(I)+XLBA*DELTAB(I)
+  10  CONTINUE
       CALL LOGLIK(NP,NRCALL,NDUAL,NS,NDIM,NSTEP,NEQ,BBB,ISENS,          &
      &                  NOPAR,KFDRV,NFEVAL,                             &
      &                  TESTB,FLIKE,GRAD,V,ZMID,XDATA,DYN,LDATA,PSI,    &
@@ -3165,15 +3242,18 @@
       IF(NSTEP.EQ.2)YYBIGL(NEQ)=0.0
       IF(NSTEP.NE.1)GO TO 3
       DO 2 J=NEQ,NRCALL
-  2   YBIGL(J)=0.0
+      YBIGL(J)=0.0
+  2   CONTINUE
   3   CONTINUE
       IF(KFDRV.EQ.0)GO TO 202
       DO 201 J=1,NOPAR
       GRAD(J)=0.0
   201 CONTINUE
-      DO 101 J=1,NOPAR
-      DO 101 I=1,NOPAR
-  101 V(I,J)=0.0
+      DO 10102 J=1,NOPAR
+      DO 10101 I=1,NOPAR
+      V(I,J)=0.0
+  10101 CONTINUE
+  10102 CONTINUE
   202 CONTINUE
 !      IF(NSTEP.LE.0)GO TO 301
 !
@@ -3192,14 +3272,17 @@
       FLIKE=FLIKE+XLNL
       IF(KFDRV.EQ.0)GO TO 200
       DO 205 J=1,NOPAR
-  205 GRAD(J)=GRAD(J)+G(J)
+      GRAD(J)=GRAD(J)+G(J)
+  205 CONTINUE
 !
 !          EVALUATE QMAT, THE APPROXIMATION TO THE HESSIAN, AS THE
 !     OUTER PRODUCT OF THE GRADIENT VECTOR ONLY FOR THE BHHH METHOD.
 !
-      DO 206 L=1,NOPAR
-      DO 206 J=1,NOPAR
-  206 V(J,L)=V(J,L)+G(J)*G(L)
+      DO 20602 L=1,NOPAR
+      DO 20601 J=1,NOPAR
+      V(J,L)=V(J,L)+G(J)*G(L)
+  20601 CONTINUE
+  20602 CONTINUE
       GO TO 200
   211 RETURN
       END
@@ -3270,7 +3353,8 @@
       ENDIF
   11  CONTINUE
       DO 27 JJ=1,5
-  27  G(JJ)=0.0
+      G(JJ)=0.0
+  27  CONTINUE
       XL=0.0
 !
 !  ***** LEGISLATOR PHASE *****
@@ -3327,7 +3411,8 @@
          XB(I,NEQ)=BETA*EXP(XB(I,NEQ))*PSI(JT,NEQ,I)
 !  10    IF(XB(I,NEQ).LT.-10.0)XB(I,NEQ)=0.0
          EXB(I,NEQ)=EXP(XB(I,NEQ))
-  6      PHI(NEQ)=PHI(NEQ)+EXB(I,NEQ)
+         PHI(NEQ)=PHI(NEQ)+EXB(I,NEQ)
+  6      CONTINUE
 !
 !   COMPUTE LIKELIHOOD
 !
@@ -3375,7 +3460,8 @@
          XB(I,II)=BETA*EXP(XB(I,II))*PSI(JT,II,I)
 !  67    IF(XB(I,II).LT.-10.0)XB(I,II)=0.0
          EXB(I,II)=EXP(XB(I,II))
-   66    PHI(II)=PHI(II)+EXB(I,II)
+         PHI(II)=PHI(II)+EXB(I,II)
+   66    CONTINUE
 !
 !   COMPUTE LIKELIHOOD
 !
@@ -3423,7 +3509,8 @@
          XB(I,II)=BETA*EXP(XB(I,II))*PSI(JT,II,I)
 !  69    IF(XB(I,II).LT.-10.0)XB(I,II)=0.0
          EXB(I,II)=EXP(XB(I,II))
-  68     PHI(II)=PHI(II)+EXB(I,II)
+         PHI(II)=PHI(II)+EXB(I,II)
+  68     CONTINUE
 !
 !   COMPUTE LIKELIHOOD
 !
@@ -3612,7 +3699,8 @@
 !
            SUM=0.0
            DO 9 K=1,NDIM
-  9        SUM=SUM+ZMID(NEQ,K)**2
+           SUM=SUM+ZMID(NEQ,K)**2
+  9        CONTINUE
            IF(NDIM.GT.1.AND.SUM.GT.1.0)                                 &
      &                          CALL GRID2(NEQ,B,4,NDIM,                &
      &                 NP,NRCALL,NDUAL,                                 &
@@ -3651,7 +3739,8 @@
 !  NORMALIZE LEGISLATOR COORDINATES TO BE ON SURFACE OF HYPERSPHERE
 !
                  DO 13 K=1,NDIM
-  13             XSP(K)=XDATA(NEQ,K)*(1.0/SQRT(SUM))
+                 XSP(K)=XDATA(NEQ,K)*(1.0/SQRT(SUM))
+  13             CONTINUE
 !                 WRITE(37,1014)(XSP(K),K=1,NDIM)
                  XDATA(NEQ,NDIM)=0.0
 !
@@ -3664,9 +3753,11 @@
                  ASUM=0.0
                  DO 15 K=1,NDIM
                  XNEW(K)=XSP(K)+((XJJ-1.0)/20.0)*(XDATA(NEQ,K)-XSP(K))
-  15             ASUM=ASUM+XNEW(K)**2
+                 ASUM=ASUM+XNEW(K)**2
+  15             CONTINUE
                  DO 18 K=1,NDIM
-  18             XNEW(K)=XNEW(K)*(1.0/SQRT(ASUM))
+                 XNEW(K)=XNEW(K)*(1.0/SQRT(ASUM))
+  18             CONTINUE
                  DO 12 JT=1,NRCALL
                  ICH=LDATA(NEQ,JT)
                  IF(ICH.LE.0)GO TO 12
@@ -3699,9 +3790,11 @@
                  DO 17 K=1,NDIM
                  XDATA(NEQ,K)=XSP(K)+                                   &
      &                    ((XJJ-1.0)/20.0)*(XDATA(NEQ,K)-XSP(K))
-  17             ASUM=ASUM+XDATA(NEQ,K)**2
+                 ASUM=ASUM+XDATA(NEQ,K)**2
+  17             CONTINUE
                  DO 19 K=1,NDIM
-  19             XDATA(NEQ,K)=XDATA(NEQ,K)*(1.0/SQRT(ASUM))
+                 XDATA(NEQ,K)=XDATA(NEQ,K)*(1.0/SQRT(ASUM))
+  19             CONTINUE
                  B(1)=XDATA(NEQ,NDIM)
 !                 WRITE(37,1013)KJJ,(XDATA(NEQ,K),K=1,NDIM),AMX
                  FNLNL=-AMX
@@ -3733,10 +3826,13 @@
       BETA=BBB(1)
       WEIGHT=BBB(2)
       WTSQ=WEIGHT*WEIGHT/2.0
-      DO 5 I=1,2
+      DO 502 I=1,2
       L(I)=0
-      DO 5 J=1,2
-  5   LL(I,J)=0
+      DO 501 J=1,2
+      LL(I,J)=0
+  501 CONTINUE
+  502 CONTINUE
+!
 !
 !  ***** UTILITY FUNCTION PHASE *****
 !
@@ -3888,7 +3984,8 @@
 !
            DO 1 J=1,NCUT
            XJ=FLOAT(J)
-  1        ZY(J)=ZF+XINC*(XJ-1.0)
+           ZY(J)=ZF+XINC*(XJ-1.0)
+  1        CONTINUE
 !
 !  CALCULATE LOG LIKELIHOOD FOR EACH OF THE NCUT POINTS
 !
@@ -3949,7 +4046,8 @@
            ZF=B(2)-DYNDYN
            DO 11 J=1,NCUTCUT
            XJ=FLOAT(J)
-  11       ZY(J)=ZF+XINC*(XJ-1.0)
+           ZY(J)=ZF+XINC*(XJ-1.0)
+  11       CONTINUE
            DO 12 J=1,NCUTCUT
            XLX=0.0
            XLX1=0.0
@@ -4012,14 +4110,15 @@
            DO 34 J=1,KKKCUT
            XJ=FLOAT(J)
            ZY(J)=B2MAX-XINC*(XJ-1.0)
-  34       ZN(J)=B2MAX-XINC*(XJ-1.0)
+           ZN(J)=B2MAX-XINC*(XJ-1.0)
+   34      CONTINUE  
 !
 !  SEARCH FOR THE OPTIMAL PAIR OF OUTCOME COORDINATES
 !
 !
            XLDEF=0.0
-           DO 35 J=1,KKKCUT
-           DO 35 L=1,KKKCUT
+           DO 3502 J=1,KKKCUT
+           DO 3501 L=1,KKKCUT
            XLXY=0.0
            XLXN=0.0
            DO 36 K=1,NP
@@ -4065,7 +4164,8 @@
               LL=L
            ENDIF
            BMAXN=AMXN
-  35       CONTINUE
+  3501     CONTINUE
+  3502     CONTINUE
            IF(AMXY.GT.AMXN)THEN
               B(1)=ABS(ZY(KJ)-ZN(KL))/2.0
               B(2)=(ZY(KJ)+ZN(KL))/2.0
@@ -4106,7 +4206,8 @@
 !
            SUM=0.0
            DO 54 K=1,NDIM
-  54       SUM=SUM+DYN(NEQ,K)**2
+           SUM=SUM+DYN(NEQ,K)**2
+  54       CONTINUE
            T=1.0/SQRT(SUM)
            XPSI=0.0
            XGAM=0.0
@@ -4117,7 +4218,8 @@
            PTA(K)=T*(-DYN(NEQ,K))
            PTB(K)=T*( DYN(NEQ,K))
            XPSI=XPSI+(ZMID(NEQ,K)-PTA(K))**2
-  53       XGAM=XGAM+(ZMID(NEQ,K)-PTB(K))**2
+           XGAM=XGAM+(ZMID(NEQ,K)-PTB(K))**2
+  53       CONTINUE
            COSB=(XPSI-XGAM-4.0)/(-4.0*SQRT(XGAM))
            COSA=(XGAM-XPSI-4.0)/(-4.0*SQRT(XPSI))
 !
@@ -4145,7 +4247,8 @@
 !  FIND POINT C ALONG A TO B LINE THROUGH CENTER OF HYPERSPHERE
 !
            DO 52 K=1,NDIM
-  52       PTC(K)=PTA(K)+(DBETA/2.0)*(PTB(K)-PTA(K))
+           PTC(K)=PTA(K)+(DBETA/2.0)*(PTB(K)-PTA(K))
+  52       CONTINUE
 !
 !  FIND POINTS D AND E -- INTERSECTION OF CUTTING LINE THROUGH
 !       THE SURFACE OF THE HYPERSPHERE
@@ -4155,10 +4258,12 @@
            DO 51 K=1,NDIM
            CMINUSZ(K)=PTC(K)-ZMID(NEQ,K)
            BB=BB+2.0*CMINUSZ(K)*ZMID(NEQ,K)
-  51       AA=AA+CMINUSZ(K)**2
+           AA=AA+CMINUSZ(K)**2
+  51       CONTINUE
            CC=0.0
            DO 58 K=1,NDIM-1
-  58       CC=CC+ZMID(NEQ,K)**2
+           CC=CC+ZMID(NEQ,K)**2
+  58       CONTINUE
            CC=CC+B(2)**2
            CC=CC-1.0
            IF(BB*BB.LT.(4.0*AA*CC))THEN
@@ -4181,11 +4286,13 @@
               BMINUSA(K)=PTB(K)-PTA(K)
   50          CONTINUE
            ENDIF
-           DO 55 J=1,11
+           DO 5502 J=1,11
            XJ=FLOAT(J)
-           DO 55 K=1,NDIM
+           DO 5501 K=1,NDIM
            ZM(J,K)=PTA(K)+(1.0-.1*(XJ-1.0))*BMINUSA(K)
-  55       CONTINUE
+  5501     CONTINUE
+  5502     CONTINUE
+!
 !
 !  CALCULATE LOG-LIKELIHOOD
 !
@@ -4320,7 +4427,8 @@
            BSUM=BSUM+XSAVE(I,1,1)**2
            CSUM=CSUM+XSAVE(I,2,1)
            DSUM=DSUM+XSAVE(I,2,1)**2
-  11       ESUM=ESUM+XSAVE(I,1,1)*XSAVE(I,2,1)
+           ESUM=ESUM+XSAVE(I,1,1)*XSAVE(I,2,1)
+  11       CONTINUE
            XNP=FLOAT(NP)
            AA=XNP*ESUM-ASUM*CSUM
            BB=XNP*BSUM-ASUM*ASUM
@@ -4350,7 +4458,8 @@
            BSUM=BSUM+XSAVE(I,1,1)**2
            CSUM=CSUM+XSAVE(I,2,1)
            DSUM=DSUM+XSAVE(I,2,1)**2
-  21       ESUM=ESUM+XSAVE(I,1,1)*XSAVE(I,2,1)
+           ESUM=ESUM+XSAVE(I,1,1)*XSAVE(I,2,1)
+  21       CONTINUE
            DO 23 I=1,NRCALL
            ASUM=ASUM+ZSAVE(I,1,1)
            AASUM=AASUM+CSAVE(I,1)
@@ -4443,7 +4552,8 @@
            SPRM=SPRM+ABS(2.0*DYN(I,NDIM))
            SPRSD=SPRSD+(2.0*DYN(I,NDIM))**2
            DO 12 JJ=1,4
-  12       KSUM=KSUM+KPJP(I,JJ)
+           KSUM=KSUM+KPJP(I,JJ)
+  12       CONTINUE
            KKSUM=KKSUM+KSUM
            SUM=SUM+YBIGL(I)
            IF(KSUM.EQ.0)AA=99.0
@@ -4485,7 +4595,8 @@
            DO 13 I=1,NRX
            KSUM=0
            DO 14 JJ=1,4
-  14       KSUM=KSUM+KPJP(I,JJ)
+           KSUM=KSUM+KPJP(I,JJ)
+  14       CONTINUE
            KKSUM=KKSUM+KSUM
            SUM=SUM+YBIGL(I)
            IF(KSUM.EQ.0)AA=99.0
@@ -4562,7 +4673,8 @@
       DD=XDATA(KSMAX,NDIM)
       DO 3 I=1,NP
       XD(I)=XDATA(I,NDIM)
-  3   LMO(I)=I
+      LMO(I)=I
+  3   CONTINUE
       CALL RSORT(XD,NP,LMO)
 !
 !  EXAMINE LEGISLATOR CONFIGURATION FOR SAG.  IF SAG EXISTS, CONSTRAIN
