@@ -139,7 +139,7 @@ plot.coords <- function (x, main.title="W-NOMINATE Coordinates",
     nparties <- length(unique(types))
     
     # set default colors and shapes
-    colorlist <- c("#181484", "#f01c24", "#20b4cc", "#289c44", "#e8a43c", "lightgrey", 
+    colorlist <- c("#181484", "#f01c24", "#20b4cc", "#289c44", "#e8a43c", "darkgrey", 
     "darkorange", "darkorchid", "darkred", "darksalmon", "darkseagreen", "darkslateblue", 
     "darkslategray", "darkturquoise", "darkviolet", "deeppink", "deepskyblue", "dodgerblue")
     shapes <- rep(c(16,15,17,18,19,3,4,8),3)
