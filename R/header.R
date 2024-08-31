@@ -14,5 +14,5 @@
 }
 
 .onUnload <- function(libpath) {
-    library.dynam.unload("wnominate", libpath)
+    library.dynam.unload("wnominatepr", libpath)
 }
